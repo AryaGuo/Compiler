@@ -1,9 +1,7 @@
-class A
+int main()
 {
-
-}
-
-int main() {
-    println("too young too simple.");
-    return 0;
+	void a;
+	void b;
+	a = b;
+	return 0;
 }

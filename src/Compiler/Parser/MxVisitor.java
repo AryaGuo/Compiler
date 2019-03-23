@@ -1,4 +1,4 @@
-// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler.Parser/Mx.g4 by ANTLR 4.7.2
+// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler/Parser/Mx.g4 by ANTLR 4.7.2
 package Compiler.Parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -221,11 +221,18 @@ public interface MxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMemberExpression(MxParser.MemberExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MxParser#creator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCreator(MxParser.CreatorContext ctx);
+     * Visit a parse tree produced by {@link MxParser#functionCall}.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitFunctionCall(MxParser.FunctionCallContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link MxParser#creator}.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitCreator(MxParser.CreatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MxParser#empty}.
 	 * @param ctx the parse tree

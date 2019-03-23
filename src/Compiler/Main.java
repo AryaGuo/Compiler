@@ -5,7 +5,10 @@ import Compiler.AST.ASTPrinter;
 import Compiler.AST.ASTProgram;
 import Compiler.Parser.MxLexer;
 import Compiler.Parser.MxParser;
-import Compiler.Symbol.SymbolScanner;
+import Compiler.Symbol.ClassScanner;
+import Compiler.Symbol.GlobalDeclarator;
+import Compiler.Symbol.GlobalSymbolTable;
+import Compiler.Symbol.SemanticChecker;
 import Compiler.Utility.ErrorRecorder;
 import Compiler.Utility.SyntaxErrorListener;
 import org.antlr.v4.runtime.CharStream;
@@ -23,11 +26,12 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        run();
+        run(args[0]);
     }
 
-    private static void run() throws IOException {
-        InputStream inputStream = new FileInputStream("testdata/3.txt");
+    private static void run(String input) throws IOException {
+        System.out.println("compiling " + input);
+        InputStream inputStream = new FileInputStream(input);
         CharStream charStream = CharStreams.fromStream(inputStream);
         MxLexer mxLexer = new MxLexer(charStream);
         CommonTokenStream tokenStream = new CommonTokenStream(mxLexer);
@@ -35,10 +39,11 @@ public class Main {
         ErrorRecorder errorRecorder = new ErrorRecorder();
 
         //get parse tree, check syntax error
-        ParseTree parseTree = mxParser.program();
         mxParser.removeErrorListeners();
         mxParser.addErrorListener(new SyntaxErrorListener(errorRecorder));
-        if (errorRecorder.errorOccured()) {
+
+        ParseTree parseTree = mxParser.program();
+        if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
         }
@@ -46,7 +51,7 @@ public class Main {
         //build AST
         ASTBuilder astBuilder = new ASTBuilder(errorRecorder);
         parseTree.accept(astBuilder);
-        if(errorRecorder.errorOccured()) {
+        if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
         }
@@ -58,15 +63,30 @@ public class Main {
             System.out.println(astPrinter.toString());
         }
 
-        //build symbol table
-        SymbolScanner symbolScanner = new SymbolScanner(errorRecorder);
-        program.accept(symbolScanner);
-        if(errorRecorder.errorOccured()) {
+        //scan classes
+        GlobalSymbolTable globalSymbolTable = new GlobalSymbolTable();
+        ClassScanner classScanner = new ClassScanner(errorRecorder, globalSymbolTable);
+        program.accept(classScanner);
+        if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
         }
 
+        //global declaration
+        GlobalDeclarator globalDeclarator = new GlobalDeclarator(errorRecorder, globalSymbolTable);
+        program.accept(globalDeclarator);
+        if (errorRecorder.errorOccurred()) {
+            errorRecorder.printTo(System.err);
+            exit(1);
+        }
 
+//        semantic check
+        SemanticChecker semanticChecker = new SemanticChecker(errorRecorder, globalSymbolTable);
+        program.accept(semanticChecker);
+        if (errorRecorder.errorOccurred()) {
+            errorRecorder.printTo(System.err);
+            exit(1);
+        }
     }
 
 }

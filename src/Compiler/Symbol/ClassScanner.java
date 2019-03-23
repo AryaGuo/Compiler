@@ -14,17 +14,19 @@ import Compiler.AST.TypeNode.PrimitiveTypeNode;
 import Compiler.AST.TypeNode.TypeNode;
 import Compiler.Utility.ErrorRecorder;
 
-public class SymbolScanner implements ASTVisitor {
+public class ClassScanner implements ASTVisitor {
 
-    public ErrorRecorder errorRecorder;
+    private ErrorRecorder errorRecorder;
+    private GlobalSymbolTable global;
 
-    public SymbolScanner(ErrorRecorder errorRecorder) {
+    public ClassScanner(ErrorRecorder errorRecorder, GlobalSymbolTable global) {
         this.errorRecorder = errorRecorder;
+        this.global = global;
     }
 
     @Override
     public void visit(ASTProgram node) {
-
+        node.classList.forEach(this::visit);
     }
 
     @Override
@@ -34,7 +36,15 @@ public class SymbolScanner implements ASTVisitor {
 
     @Override
     public void visit(ClassDeclaration node) {
-
+        ClassSymbol classSymbol = new ClassSymbol(node.name);
+        classSymbol.location = node.location;
+        classSymbol.symbolTable = new SymbolTable(global);
+        if (global.containClass(node.name)) {
+            errorRecorder.addRecord(node.location, "redefinition of class '" + node.name + "'");
+        } else {
+            global.addClass(node.name, classSymbol);
+            node.classSymbol = classSymbol;
+        }
     }
 
     @Override

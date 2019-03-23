@@ -1,4 +1,4 @@
-// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler.Parser/Mx.g4 by ANTLR 4.7.2
+// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler/Parser/Mx.g4 by ANTLR 4.7.2
 package Compiler.Parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -396,6 +396,24 @@ public class MxBaseListener implements MxListener {
 	 */
 	@Override public void exitMemberExpression(MxParser.MemberExpressionContext ctx) { }
 	/**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterFunctionCall(MxParser.FunctionCallContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitFunctionCall(MxParser.FunctionCallContext ctx) {
+    }
+
+    /**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>

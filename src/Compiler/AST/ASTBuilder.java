@@ -22,8 +22,8 @@ import static Compiler.Parser.MxParser.THIS;
 
 public class ASTBuilder extends MxBaseVisitor {
 
-    public ASTProgram program;
-    public ErrorRecorder errorRecorder;
+    private ASTProgram program;
+    private ErrorRecorder errorRecorder;
 
     public ASTBuilder(ErrorRecorder errorRecorder) {
         program = new ASTProgram();
@@ -80,8 +80,8 @@ public class ASTBuilder extends MxBaseVisitor {
         FunctionDeclaration functionDeclaration = new FunctionDeclaration();
         functionDeclaration.returnType = visitReturnType(ctx.returnType());
         functionDeclaration.name = ctx.IDENTIFIER().getText();
-        if(ctx.parameterList() != null) {
-            functionDeclaration.paramenterList = visitParameterList(ctx.parameterList());
+        if (ctx.parameterList() != null) {
+            functionDeclaration.parameterList = visitParameterList(ctx.parameterList());
         }
         functionDeclaration.body = visitFunctionBody(ctx.functionBody());
         functionDeclaration.location = functionDeclaration.returnType.location;
@@ -100,12 +100,18 @@ public class ASTBuilder extends MxBaseVisitor {
         for (MxParser.ConstructorDeclarationContext x : ctx.constructorDeclaration()) {
             if (classDeclaration.constructor == null) {
                 classDeclaration.constructor = visitConstructorDeclaration(x);
+                if (!classDeclaration.constructor.name.equals(classDeclaration.name)) {
+                    errorRecorder.addRecord(new TokenLocation(x), "expected a typeNode specifier");
+                }
             } else {
                 errorRecorder.addRecord(new TokenLocation(x), "constructor cannot be redeclared");
             }
         }
         if (classDeclaration.constructor == null) {
-            classDeclaration.constructor = new FunctionDeclaration();
+            FunctionDeclaration functionDeclaration = new FunctionDeclaration();
+            functionDeclaration.name = classDeclaration.name;
+
+            classDeclaration.constructor = functionDeclaration;
         }
         return classDeclaration;
     }
@@ -113,7 +119,7 @@ public class ASTBuilder extends MxBaseVisitor {
     @Override
     public List<VariableDeclaration> visitParameterList(MxParser.ParameterListContext ctx) {
         List<VariableDeclaration> list = new LinkedList<>();
-        if(ctx.type() == null) {
+        if (ctx.type() == null) {
             return list;
         }
         for (int i = 0; i < ctx.type().size(); ++i) {
@@ -154,7 +160,7 @@ public class ASTBuilder extends MxBaseVisitor {
         arrayTypeNode.location = new TokenLocation(ctx);
         arrayTypeNode.baseType = visitBaseType(ctx.baseType());
         for (ParseTree x : ctx.children) {
-            if (x.equals("[")) ++arrayTypeNode.dimension;
+            if (x.getText().equals("[")) ++arrayTypeNode.dimension;
         }
         return arrayTypeNode;
     }
@@ -290,7 +296,6 @@ public class ASTBuilder extends MxBaseVisitor {
         } else {
             return new LiteralExpression(ctx.token);
         }
-
     }
 
     @Override
@@ -328,13 +333,7 @@ public class ASTBuilder extends MxBaseVisitor {
 
     @Override
     public FuncCallExpression visitFunctionCallExpression(MxParser.FunctionCallExpressionContext ctx) {
-        FuncCallExpression funcCallExpression = new FuncCallExpression();
-        funcCallExpression.function = (Expression) ctx.expression(0).accept(this);
-        funcCallExpression.location = new TokenLocation(ctx);
-        for (int i = 1; i < ctx.expression().size(); ++i) {
-            funcCallExpression.addParamenter((Expression) ctx.expression(i).accept(this));
-        }
-        return funcCallExpression;
+        return visitFunctionCall(ctx.functionCall());
     }
 
     @Override
@@ -356,20 +355,35 @@ public class ASTBuilder extends MxBaseVisitor {
     public MemberExpression visitMemberExpression(MxParser.MemberExpressionContext ctx) {
         MemberExpression memberExpression = new MemberExpression();
         memberExpression.lhs = (Expression) ctx.expression().accept(this);
-        memberExpression.rhs = new Identifier(ctx.IDENTIFIER().getSymbol());
         memberExpression.location = new TokenLocation(ctx);
+        if (ctx.IDENTIFIER() != null) {
+            memberExpression.identifier = new Identifier(ctx.IDENTIFIER().getSymbol());
+        } else {
+            memberExpression.functionCall = visitFunctionCall(ctx.functionCall());
+        }
         return memberExpression;
+    }
+
+    @Override
+    public FuncCallExpression visitFunctionCall(MxParser.FunctionCallContext ctx) {
+        FuncCallExpression funcCallExpression = new FuncCallExpression();
+        funcCallExpression.function = new Identifier(ctx.IDENTIFIER().getSymbol());
+        funcCallExpression.location = new TokenLocation(ctx);
+        for (int i = 0; i < ctx.expression().size(); ++i) {
+            funcCallExpression.addParameter((Expression) ctx.expression(i).accept(this));
+        }
+        return funcCallExpression;
     }
 
     @Override
     public NewExpression visitCreator(MxParser.CreatorContext ctx) {
         NewExpression newExpression = new NewExpression();
-        newExpression.type = visitBaseType(ctx.baseType());
+        newExpression.typeNode = visitBaseType(ctx.baseType());
         newExpression.location = new TokenLocation(ctx);
         if (ctx.expression() != null) {
             ctx.expression().forEach(expressionContext -> newExpression.dimExpr.add((Expression) expressionContext.accept(this)));
         }
-        if(ctx.empty() != null) {
+        if (ctx.empty() != null) {
             newExpression.remDim = ctx.empty().size();
         }
         return newExpression;

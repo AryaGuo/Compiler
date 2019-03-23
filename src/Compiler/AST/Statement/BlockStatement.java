@@ -9,7 +9,6 @@ public class BlockStatement extends Statement {
 
     public List<Statement> statementList;
 
-
     public BlockStatement() {
         statementList = new LinkedList<>();
     }

@@ -8,12 +8,12 @@ public class Config {
 
     public enum Allocator {
         NaiveAllocator, SimpleGraphAllocator, GraphAllocator
-    };
+    }
 
     public static FileInputStream fin;
     public static PrintStream fout;
 
-    public static boolean useCommomAssignElimination = true;
+    public static boolean useCommonAssignElimination = true;
     public static boolean useOutputIrrelevantElimination = true;
     public static boolean useBackupOptimization = true;
     public static boolean useLocalValueNumberOptimization = true;
@@ -23,7 +23,7 @@ public class Config {
     public static int inlineOperationsThreshold = 20;
 
     public static Allocator allocator = Allocator.SimpleGraphAllocator;
-    public static boolean printAST = true;
+    public static boolean printAST = false;
     public static boolean printIR = true;
     public static boolean printIRAfterLocalValueNumberOptimization = false;
     public static boolean printIRAfterUselessInstructionElimination = false;

@@ -1,20 +1,22 @@
 package Compiler.AST.Expression;
 
 import Compiler.AST.ASTVisitor;
+import Compiler.Symbol.FunctionSymbol;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class FuncCallExpression extends Expression {
 
-    public Expression function;
+    public Identifier function;
     public List<Expression> parameterList;
+    public FunctionSymbol functionSymbol;
 
     public FuncCallExpression() {
         parameterList = new LinkedList<>();
     }
 
-    public void addParamenter(Expression expression) {
+    public void addParameter(Expression expression) {
         parameterList.add(expression);
     }
 

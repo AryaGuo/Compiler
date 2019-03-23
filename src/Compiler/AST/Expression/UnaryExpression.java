@@ -4,17 +4,6 @@ import Compiler.AST.ASTVisitor;
 
 public class UnaryExpression extends Expression {
 
-//    public enum UOP {
-//        PLUS,   //+x
-//        MINUS,  //-x
-//        NOT,    //!x
-//        REVERSE,    //~x
-//        PPLUS,  //++x
-//        PMINUS, //--x
-//        SPLUS,  //x++
-//        SMINUS  //x--
-//    };
-
     public Expression expression;
     public String op;
 

@@ -5,24 +5,28 @@ import Compiler.AST.TokenLocation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlobalSymolTable extends SymbolTable {
+public class GlobalSymbolTable extends SymbolTable {
 
     public Map<String, ClassSymbol> classTable;
     public Map<String, PrimitiveSymbol> primitiveTable;
 
-    public GlobalSymolTable() {
+    public GlobalSymbolTable() {
         super(null);
         classTable = new HashMap<>();
         primitiveTable = new HashMap<>();
         init();
     }
 
+    public boolean containClass(String name) {
+        return classTable.containsKey(name);
+    }
     public void addClass(String name, ClassSymbol classSymbol) {
         classTable.put(name, classSymbol);
     }
     public ClassSymbol getClass(String name) {
         return classTable.get(name);
     }
+
     public void addPrimitive(PrimitiveSymbol primitiveSymbol) {
         primitiveTable.put(primitiveSymbol.name, primitiveSymbol);
     }
@@ -60,14 +64,17 @@ public class GlobalSymolTable extends SymbolTable {
         addFunction("toString", _globalToString());
     }
 
+    private Type boolType() {
+        return getPrimitive("bool");
+    }
     private Type voidType() {
-        return new PrimitiveType("void", getPrimitive("void"));
+        return getPrimitive("void");
     }
     private Type intType() {
-        return new PrimitiveType("int", getPrimitive("int"));
+        return getPrimitive("int");
     }
     private Type stringType() {
-        return new ClassType("string", getClass("string"));
+        return getClass("string");
     }
 
     private FunctionSymbol _stringLength() {

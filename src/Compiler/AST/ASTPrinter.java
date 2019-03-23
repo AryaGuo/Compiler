@@ -102,12 +102,12 @@ public class ASTPrinter implements ASTVisitor {
     public void visit(FunctionDeclaration node) {
         appendNewLine("function: " + node.name);
         if (node.returnType != null) {     //  not constructor
-            appendNewLine("return type: ");
+            appendNewLine("return typeNode: ");
             node.returnType.accept(this);
         }
-        if (node.paramenterList != null) {
+        if (node.parameterList != null) {
             appendNewLine("parameters:");
-            for (VariableDeclaration vd : node.paramenterList) {
+            for (VariableDeclaration vd : node.parameterList) {
                 visit(vd);
                 appendCurrentLine(",");
             }
@@ -318,13 +318,13 @@ public class ASTPrinter implements ASTVisitor {
     public void visit(MemberExpression node) {
         node.lhs.accept(this);
         appendCurrentLine(".");
-        visit(node.rhs);
+        visit(node.identifier);
     }
 
     @Override
     public void visit(NewExpression node) {
         appendCurrentLine("new ");
-        node.type.accept(this);
+        node.typeNode.accept(this);
         for (Expression e : node.dimExpr) {
             appendCurrentLine("[");
             e.accept(this);

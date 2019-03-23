@@ -14,7 +14,6 @@ public class SymbolTable {
         this.parent = parent;
     }
 
-    //todo: error
     public void addFunction(String name, FunctionSymbol functionSymbol) {
         functionTable.put(name, functionSymbol);
     }
@@ -31,4 +30,11 @@ public class SymbolTable {
         return variableTable.get(name);
     }
 
+    public boolean containFunction(String name) {
+        return functionTable.containsKey(name);
+    }
+
+    public boolean containVariable(String name) {
+        return variableTable.containsKey(name);
+    }
 }

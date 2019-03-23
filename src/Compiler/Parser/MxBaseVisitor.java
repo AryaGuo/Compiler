@@ -1,4 +1,4 @@
-// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler.Parser/Mx.g4 by ANTLR 4.7.2
+// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler/Parser/Mx.g4 by ANTLR 4.7.2
 package Compiler.Parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -236,12 +236,23 @@ public class MxBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements MxV
 	 */
 	@Override public T visitMemberExpression(MxParser.MemberExpressionContext ctx) { return visitChildren(ctx); }
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitCreator(MxParser.CreatorContext ctx) { return visitChildren(ctx); }
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitFunctionCall(MxParser.FunctionCallContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override public T visitCreator(MxParser.CreatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,4 +1,4 @@
-// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler.Parser/Mx.g4 by ANTLR 4.7.2
+// Generated from /Users/guowenxuan/codelab/reCompiler/src/Compiler/Parser/Mx.g4 by ANTLR 4.7.2
 package Compiler.Parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -364,6 +364,19 @@ public interface MxListener extends ParseTreeListener {
 	 */
 	void exitMemberExpression(MxParser.MemberExpressionContext ctx);
 	/**
+     * Enter a parse tree produced by {@link MxParser#functionCall}.
+     * @param ctx the parse tree
+     */
+    void enterFunctionCall(MxParser.FunctionCallContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link MxParser#functionCall}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitFunctionCall(MxParser.FunctionCallContext ctx);
+
+    /**
 	 * Enter a parse tree produced by {@link MxParser#creator}.
 	 * @param ctx the parse tree
 	 */

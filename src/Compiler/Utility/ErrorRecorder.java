@@ -28,7 +28,8 @@ public class ErrorRecorder {
         errorList.add(ANSI_CYAN + stacks[1].getClassName() + "." + stacks[1].getLineNumber() +  ANSI_PURPLE
                 + ":" + ANSI_BLUE + location + ANSI_RESET + ANSI_PURPLE + ":" + ANSI_RED + message + ANSI_RESET);
     }
-    public boolean errorOccured() {
+
+    public boolean errorOccurred() {
         return !errorList.isEmpty();
     }
 

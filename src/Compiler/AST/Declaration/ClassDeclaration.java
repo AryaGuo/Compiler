@@ -1,6 +1,7 @@
 package Compiler.AST.Declaration;
 
 import Compiler.AST.ASTVisitor;
+import Compiler.Symbol.ClassSymbol;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,7 @@ public class ClassDeclaration extends Declaration {
     public List<FunctionDeclaration> functionList;
     public List<VariableDeclaration> variableList;
     public FunctionDeclaration constructor;
-
-    //todo symbol
+    public ClassSymbol classSymbol;
 
     public ClassDeclaration() {
         functionList = new LinkedList<>();

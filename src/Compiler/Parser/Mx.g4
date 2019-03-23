@@ -79,9 +79,9 @@ statement
 
 expression
     :   expression suffix=('++' | '--')                                         #unaryExpression
-    |   expression '(' (expression (',' expression)*)? ')'                      #functionCallExpression
+    |   functionCall                                                            #functionCallExpression
     |   expression '[' expression ']'                                           #arrayExpression
-    |   expression '.' IDENTIFIER                                               #memberExpression
+    |   expression '.' (IDENTIFIER | functionCall)                              #memberExpression
 
     |   <assoc=right> prefix=('++' | '--') expression                           #unaryExpression
     |   <assoc=right> prefix=('+' | '-' | '!' | '~' ) expression                #unaryExpression
@@ -109,8 +109,13 @@ expression
     |   '(' expression ')'                                                      #primaryExpression
     ;
 
+functionCall
+    :    IDENTIFIER '(' (expression (',' expression)*)? ')'
+    ;
+
 creator
-    :   baseType (('[' expression ']')* ('[' empty ']')* | ('(' ')'))
+    :   baseType ('[' expression ']')* ('[' empty ']')*
+    |   baseType ('('')')?
     ;
 
 empty

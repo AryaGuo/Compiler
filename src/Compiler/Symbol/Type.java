@@ -1,4 +1,5 @@
 package Compiler.Symbol;
 
-public abstract class Type {
+public interface Type {
+    boolean match(Type type);
 }

@@ -2,10 +2,11 @@ package Compiler.AST.Expression;
 
 import Compiler.AST.ASTNode;
 import Compiler.AST.ASTVisitor;
+import Compiler.Symbol.Type;
 
 public abstract class Expression extends ASTNode {
 
-//    variable type;
+    public Type type;
     public boolean isLeft;
 
     @Override
