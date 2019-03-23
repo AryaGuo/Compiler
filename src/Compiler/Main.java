@@ -30,8 +30,9 @@ public class Main {
     }
 
     private static void run(String input) throws IOException {
-        System.out.println("compiling " + input);
-        InputStream inputStream = new FileInputStream(input);
+//        System.out.println("compiling " + input);
+//        InputStream inputStream = new FileInputStream(input);
+        InputStream inputStream = new FileInputStream("program.txt");
         CharStream charStream = CharStreams.fromStream(inputStream);
         MxLexer mxLexer = new MxLexer(charStream);
         CommonTokenStream tokenStream = new CommonTokenStream(mxLexer);
