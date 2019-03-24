@@ -403,7 +403,6 @@ public class MxBaseListener implements MxListener {
 	@Override
 	public void enterFunctionCall(MxParser.FunctionCallContext ctx) {
 	}
-
 	/**
 	 * {@inheritDoc}
 	 *
@@ -412,7 +411,6 @@ public class MxBaseListener implements MxListener {
 	@Override
 	public void exitFunctionCall(MxParser.FunctionCallContext ctx) {
 	}
-
 	/**
 	 * {@inheritDoc}
 	 *

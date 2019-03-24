@@ -100,8 +100,8 @@ public class SemanticChecker implements ASTVisitor {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of '" + variableSymbol.name + "'; previously as a class");
         } else {
             currentScope.addVariable(variableSymbol.name, variableSymbol);
+            variableDeclaration.variableSymbol = variableSymbol;
         }
-        variableDeclaration.variableSymbol = variableSymbol;
     }
 
     private void enterScope(SymbolTable symbolTable) {
@@ -129,14 +129,24 @@ public class SemanticChecker implements ASTVisitor {
         return op.equals("&&") || op.equals("||");
     }
 
+    //++x: isLeft
+    private boolean selfIncPrefixOp(String op) {
+        return op.equals("++x") || op.equals("--x");
+    }
+
+    //x++: notLeft
+    private boolean selfIncSuffixOp(String op) {
+        return op.equals("x++") || op.equals("x--");
+    }
+
     private boolean unaryAriOp(String op) {
-        return op.equals("+") || op.equals("-") || op.equals("~") || op.equals("++x") || op.equals("--x") || op.equals("x++") || op.equals("x--");
+        return op.equals("+") || op.equals("-") || op.equals("~");
     }
 
     @Override
     public void visit(ASTProgram node) {
-        node.classList.forEach(this::visit);
-        node.functionList.forEach(this::visit);
+        node.declarationList.forEach(declaration -> declaration.accept(this));
+
         FunctionSymbol main = resolveFunction(currentScope, "main");
         if (main == null) {
             errorRecorder.addRecord(node.location, "'main' function not found");
@@ -173,7 +183,17 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(VariableDeclaration node) {
+        if (node.init != null) {
+            node.init.accept(this);
+            if (node.init.type == null) return;
+        }
         defineVariable(node);
+        if (node.variableSymbol == null) return;
+        if (node.init != null) {
+            if (!node.variableSymbol.type.match(node.init.type)) {
+                errorRecorder.addRecord(node.location, "can not initialize '" + node.variableSymbol.type.toString() + "' with '" + node.init.type.toString() + "'");
+            }
+        }
     }
 
     @Override
@@ -354,7 +374,7 @@ public class SemanticChecker implements ASTVisitor {
         if (!node.lhs.type.match(node.rhs.type)) {
             errorRecorder.addRecord(node.location, "can not assign '" + node.rhs.type.toString() + "' to '" + node.lhs.type.toString() + "'");
         } else if (!node.lhs.isLeft) {
-            errorRecorder.addRecord(node.location, "lhs not assignable");
+            errorRecorder.addRecord(node.location, "expression is not assignable");
         }
         node.type = voidType;
     }
@@ -388,7 +408,7 @@ public class SemanticChecker implements ASTVisitor {
                     errorRecorder.addRecord(node.location, "undefined operation '" + node.op + "' for bool typeNode");
                 }
             } else if (node.lhs.type.match(stringType)) {
-                if (compareOp(node.op)) {
+                if (compareOp(node.op) || equalityOp(node.op)) {
                     node.type = boolType;
                 } else if (node.op.equals("+")) {
                     node.type = stringType;
@@ -416,7 +436,8 @@ public class SemanticChecker implements ASTVisitor {
             errorRecorder.addRecord(node.location, "mismatching argument numbers");
         } else {
             for (int i = st; i < n; ++i) {
-                if (!node.functionSymbol.parameterTypeList.get(i).match(node.parameterList.get(i).type)) {
+                if (node.parameterList.get(i - st).type == null) return;
+                if (!node.functionSymbol.parameterTypeList.get(i).match(node.parameterList.get(i - st).type)) {
                     errorRecorder.addRecord(node.location, "mismatching argument types");
                 }
             }
@@ -502,8 +523,15 @@ public class SemanticChecker implements ASTVisitor {
         node.expression.accept(this);
         if (node.expression.type == null) return;
         if (node.expression.type.match(intType)) {
-            if (unaryAriOp(node.op)) {
+            if (unaryAriOp(node.op) || selfIncSuffixOp(node.op)) {
                 node.type = intType;
+            } else if (selfIncPrefixOp(node.op)) {
+                if (!node.expression.isLeft) {
+                    errorRecorder.addRecord(node.expression.location, "expression is not assignable");
+                } else {
+                    node.type = intType;
+                    node.isLeft = true;
+                }
             } else {
                 errorRecorder.addRecord(node.location, "undefined operation '" + node.op + "' for int typeNode");
             }

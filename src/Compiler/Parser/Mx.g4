@@ -81,10 +81,12 @@ expression
     :   expression suffix=('++' | '--')                                         #unaryExpression
     |   functionCall                                                            #functionCallExpression
     |   expression '[' expression ']'                                           #arrayExpression
+    |   '(' expression ')'                                                      #primaryExpression
     |   expression '.' (IDENTIFIER | functionCall)                              #memberExpression
 
     |   <assoc=right> prefix=('++' | '--') expression                           #unaryExpression
-    |   <assoc=right> prefix=('+' | '-' | '!' | '~' ) expression                #unaryExpression
+    |   <assoc=right> prefix=('+' | '-') expression                             #unaryExpression
+    |   <assoc=right> prefix=('!' | '~' ) expression                            #unaryExpression
     |   <assoc=right> NEW creator                                               #newExpression
 
     |   expression operator=('*' | '/' | '%') expression                        #binaryExpression
@@ -106,7 +108,6 @@ expression
     |   token=NULL_LITERAL                                                      #primaryExpression
     |   token=INTEGER_LITERAL                                                   #primaryExpression
     |   token=STRING_LITERAL                                                    #primaryExpression
-    |   '(' expression ')'                                                      #primaryExpression
     ;
 
 functionCall

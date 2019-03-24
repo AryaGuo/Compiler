@@ -115,7 +115,8 @@ public class GlobalDeclarator implements ASTVisitor {
 
     @Override
     public void visit(ASTProgram node) {
-        node.declarationList.forEach(declaration -> declaration.accept(this));
+        node.functionList.forEach(this::visit);
+        node.classList.forEach(this::visit);
     }
 
     @Override
