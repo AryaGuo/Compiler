@@ -377,15 +377,49 @@ public interface MxListener extends ParseTreeListener {
     void exitFunctionCall(MxParser.FunctionCallContext ctx);
 
     /**
-	 * Enter a parse tree produced by {@link MxParser#creator}.
-	 * @param ctx the parse tree
+     * Enter a parse tree produced by the {@code creatorError}
+     * labeled alternative in {@link MxParser#creator}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterCreatorError(MxParser.CreatorErrorContext ctx);
+
+    /**
+     * Exit a parse tree produced by the {@code creatorError}
+     * labeled alternative in {@link MxParser#creator}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitCreatorError(MxParser.CreatorErrorContext ctx);
+
+    /**
+     * Enter a parse tree produced by the {@code creatorArray}
+     * labeled alternative in {@link MxParser#creator}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterCreatorArray(MxParser.CreatorArrayContext ctx);
+
+    /**
+     * Exit a parse tree produced by the {@code creatorArray}
+     * labeled alternative in {@link MxParser#creator}.
+     * @param ctx the parse tree
+     */
+    void exitCreatorArray(MxParser.CreatorArrayContext ctx);
+
+    /**
+     * Enter a parse tree produced by the {@code creatorNonArray}
+	 * labeled alternative in {@link MxParser#creator}.
+     * @param ctx the parse tree
+     */
+    void enterCreatorNonArray(MxParser.CreatorNonArrayContext ctx);
+
+    /**
+     * Exit a parse tree produced by the {@code creatorNonArray}
+     * labeled alternative in {@link MxParser#creator}.
+     * @param ctx the parse tree
 	 */
-	void enterCreator(MxParser.CreatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MxParser#creator}.
-	 * @param ctx the parse tree
-	 */
-	void exitCreator(MxParser.CreatorContext ctx);
+	void exitCreatorNonArray(MxParser.CreatorNonArrayContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MxParser#empty}.
 	 * @param ctx the parse tree

@@ -114,9 +114,15 @@ functionCall
     :    IDENTIFIER '(' (expression (',' expression)*)? ')'
     ;
 
+//creator
+//    :   baseType ('[' expression ']')* ('[' empty ']')*
+//    |   baseType ('('')')?
+//    ;
+
 creator
-    :   baseType ('[' expression ']')* ('[' empty ']')*
-    |   baseType ('('')')?
+    :   baseType ('[' expression ']')+ ('[' empty ']')+ ('[' expression ']')+   # creatorError
+    |   baseType ('[' expression ']')+ ('[' empty ']')*                         # creatorArray
+    |   baseType ('('')')?                                                # creatorNonArray
     ;
 
 empty

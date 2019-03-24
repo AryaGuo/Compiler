@@ -110,7 +110,7 @@ public class ASTBuilder extends MxBaseVisitor {
         if (classDeclaration.constructor == null) {
             FunctionDeclaration functionDeclaration = new FunctionDeclaration();
             functionDeclaration.name = classDeclaration.name;
-
+            functionDeclaration.returnType = new PrimitiveTypeNode("void");
             classDeclaration.constructor = functionDeclaration;
         }
         return classDeclaration;
@@ -184,6 +184,7 @@ public class ASTBuilder extends MxBaseVisitor {
         functionDeclaration.name = ctx.IDENTIFIER().getText();
         functionDeclaration.body = visitFunctionBody(ctx.functionBody());
         functionDeclaration.location = new TokenLocation(ctx);
+        functionDeclaration.returnType = new PrimitiveTypeNode("void");
         return functionDeclaration;
     }
 
@@ -323,7 +324,7 @@ public class ASTBuilder extends MxBaseVisitor {
 
     @Override
     public NewExpression visitNewExpression(MxParser.NewExpressionContext ctx) {
-        return visitCreator(ctx.creator());
+        return (NewExpression) ctx.creator().accept(this);
     }
 
     @Override
@@ -380,17 +381,28 @@ public class ASTBuilder extends MxBaseVisitor {
     }
 
     @Override
-    public NewExpression visitCreator(MxParser.CreatorContext ctx) {
+    public Object visitCreatorError(MxParser.CreatorErrorContext ctx) {
+        errorRecorder.addRecord(new TokenLocation(ctx), "array dimension specification in new expression should be left aligned");
+        return super.visitCreatorError(ctx);
+    }
+
+    @Override
+    public NewExpression visitCreatorArray(MxParser.CreatorArrayContext ctx) {
         NewExpression newExpression = new NewExpression();
         newExpression.typeNode = visitBaseType(ctx.baseType());
         newExpression.location = new TokenLocation(ctx);
-        if (ctx.expression() != null) {
-            ctx.expression().forEach(expressionContext -> newExpression.dimExpr.add((Expression) expressionContext.accept(this)));
-        }
+        ctx.expression().forEach(expressionContext -> newExpression.dimExpr.add((Expression) expressionContext.accept(this)));
         if (ctx.empty() != null) {
             newExpression.remDim = ctx.empty().size();
         }
         return newExpression;
     }
 
+    @Override
+    public NewExpression visitCreatorNonArray(MxParser.CreatorNonArrayContext ctx) {
+        NewExpression newExpression = new NewExpression();
+        newExpression.typeNode = visitBaseType(ctx.baseType());
+        newExpression.location = new TokenLocation(ctx);
+        return newExpression;
+    }
 }

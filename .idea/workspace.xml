@@ -3,12 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d18eebd6-c166-4e1e-922d-bb7fbb6047bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/Symbol/GlobalDeclarator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Symbol/GlobalDeclarator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testdata/0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testdata/0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testdata/1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testdata/2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testdata/3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/Mx.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/Mx.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/Mx.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/Mx.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler/Parser/MxVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Parser/MxVisitor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,54 +41,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Compiler/Symbol/GlobalDeclarator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="62" column="5" lean-forward="true" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
-              <folding>
-                <element signature="method#getArrayType#0;class#GlobalDeclarator#0" />
-                <element signature="method#resolveType#0;class#GlobalDeclarator#0" />
-                <element signature="e#5618#5619#0" expanded="true" />
-                <element signature="e#5654#5655#0" expanded="true" />
-                <element signature="e#5719#5720#0" expanded="true" />
-                <element signature="e#5755#5756#0" expanded="true" />
-                <element signature="method#visit#5;class#GlobalDeclarator#0" />
-                <element signature="method#visit#6;class#GlobalDeclarator#0" />
-                <element signature="method#visit#7;class#GlobalDeclarator#0" />
-                <element signature="method#visit#8;class#GlobalDeclarator#0" />
-                <element signature="method#visit#9;class#GlobalDeclarator#0" />
-                <element signature="method#visit#10;class#GlobalDeclarator#0" />
-                <element signature="method#visit#11;class#GlobalDeclarator#0" />
-                <element signature="method#visit#12;class#GlobalDeclarator#0" />
-                <element signature="method#visit#13;class#GlobalDeclarator#0" />
-                <element signature="method#visit#14;class#GlobalDeclarator#0" />
-                <element signature="method#visit#15;class#GlobalDeclarator#0" />
-                <element signature="method#visit#16;class#GlobalDeclarator#0" />
-                <element signature="method#visit#17;class#GlobalDeclarator#0" />
-                <element signature="method#visit#18;class#GlobalDeclarator#0" />
-                <element signature="method#visit#19;class#GlobalDeclarator#0" />
-                <element signature="method#visit#20;class#GlobalDeclarator#0" />
-                <element signature="method#visit#21;class#GlobalDeclarator#0" />
-                <element signature="method#visit#22;class#GlobalDeclarator#0" />
-                <element signature="method#visit#23;class#GlobalDeclarator#0" />
-                <element signature="method#visit#24;class#GlobalDeclarator#0" />
-                <element signature="method#visit#25;class#GlobalDeclarator#0" />
-                <element signature="method#visit#26;class#GlobalDeclarator#0" />
-                <element signature="method#visit#27;class#GlobalDeclarator#0" />
-                <element signature="method#visit#28;class#GlobalDeclarator#0" />
-                <element signature="method#visit#29;class#GlobalDeclarator#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="532" column="58" selection-start-line="532" selection-start-column="58" selection-end-line="532" selection-end-column="58" />
+            <state relative-caret-position="50">
+              <caret line="306" column="28" lean-forward="true" selection-start-line="306" selection-start-column="28" selection-end-line="306" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5018#5019#0" expanded="true" />
+                <element signature="e#5077#5078#0" expanded="true" />
                 <element signature="e#7548#7549#0" expanded="true" />
                 <element signature="e#7576#7577#0" expanded="true" />
                 <element signature="e#8321#8322#0" expanded="true" />
@@ -95,6 +58,27 @@
                 <element signature="e#11885#11886#0" expanded="true" />
                 <element signature="e#11913#11914#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="326" column="56" selection-start-line="326" selection-start-column="56" selection-end-line="326" selection-end-column="56" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Compiler/Parser/Mx.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="303">
+              <caret line="132" column="37" lean-forward="true" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -111,13 +95,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this</find>
-      <find>this::visit</find>
-      <find>accept</find>
       <find>identi</find>
       <find>//</find>
       <find>varia</find>
-      <find>creator</find>
       <find>visit(Id</find>
       <find>asser</find>
       <find>arraytype</find>
@@ -141,6 +121,10 @@
       <find>variabledec</find>
       <find>unaryExpression</find>
       <find>isleft</find>
+      <find>constructor</find>
+      <find>VOID</find>
+      <find>creator</find>
+      <find>errorRecorder</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,16 +174,16 @@
         <option value="$PROJECT_DIR$/testcase/testcase_170.txt" />
         <option value="$PROJECT_DIR$/src/Compiler/Utility/ErrorRecorder.java" />
         <option value="$PROJECT_DIR$/src/Compiler/AST/ASTPrinter.java" />
-        <option value="$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Symbol/ClassSymbol.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Symbol/GlobalSymbolTable.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Config.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Main.java" />
-        <option value="$PROJECT_DIR$/src/Compiler/Parser/Mx.g4" />
         <option value="$PROJECT_DIR$/program.txt" />
         <option value="$PROJECT_DIR$/testdata/0.txt" />
         <option value="$PROJECT_DIR$/src/Compiler/Symbol/GlobalDeclarator.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java" />
+        <option value="$PROJECT_DIR$/src/Compiler/Parser/Mx.g4" />
+        <option value="$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java" />
       </list>
     </option>
   </component>
@@ -229,6 +213,13 @@
               <item name="reCompiler" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Compiler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reCompiler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reCompiler" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Compiler" type="462c0819:PsiDirectoryNode" />
+              <item name="AST" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="reCompiler" type="b2602c69:ProjectViewProjectNode" />
@@ -268,7 +259,7 @@
     <property name="$PROJECT_DIR$/src/Parser/Mx.g4::/output-dir" value="$PROJECT_DIR$/src" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553427195756" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553445178079" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -334,7 +325,7 @@
       <workItem from="1553253031249" duration="23911000" />
       <workItem from="1553327199132" duration="11563000" />
       <workItem from="1553415850480" duration="8236000" />
-      <workItem from="1553443641342" duration="436000" />
+      <workItem from="1553443641342" duration="1478000" />
     </task>
     <task id="LOCAL-00001" summary="semantic checker finished; to be tested">
       <created>1553339618331</created>
@@ -364,11 +355,18 @@
       <option name="project" value="LOCAL" />
       <updated>1553426097335</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="bugs fixed:&#10;symbol scope;&#10;expect lvalue for suffix inc/dec">
+      <created>1553444190567</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1553444190567</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72672000" />
+    <option name="totallyTimeSpent" value="73714000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -383,7 +381,7 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4939759" visible="true" weight="0.13519314" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4939759" visible="true" weight="0.13519314" />
       <window_info id="Structure" order="1" sideWeight="0.5060241" side_tool="true" weight="0.13519314" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -394,18 +392,18 @@
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32970297" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32970297" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" sideWeight="0.49946752" visible="true" weight="0.32891566" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.49946752" weight="0.32891566" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32970297" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32970297" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Tool Output" order="10" weight="0.32970297" />
+      <window_info anchor="bottom" id="Tool Output" order="10" weight="0.32891566" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5005325" side_tool="true" weight="0.32970297" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.32970297" />
-      <window_info anchor="bottom" id="ANTLR Preview" order="14" weight="0.32970297" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="14" weight="0.32891566" />
       <window_info anchor="bottom" id="Messages" order="15" weight="0.32970297" />
       <window_info anchor="bottom" id="Duplicate detector" order="16" weight="0.32970297" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -429,11 +427,22 @@
     <MESSAGE value="minor changes for OJ test" />
     <MESSAGE value="fix type matching" />
     <MESSAGE value="bugs fixed:&#10;back reference;&#10;priority of self increment;&#10;string operation;&#10;initializing varDecl" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugs fixed:&#10;back reference;&#10;priority of self increment;&#10;string operation;&#10;initializing varDecl" />
+    <MESSAGE value="bugs fixed:&#10;symbol scope;&#10;expect lvalue for suffix inc/dec" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugs fixed:&#10;symbol scope;&#10;expect lvalue for suffix inc/dec" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java</url>
+          <line>314</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="global" language="JAVA" />
@@ -664,16 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="159" lean-forward="true" selection-start-line="159" selection-end-line="159" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/AST/Expression/FuncCallExpression.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -814,20 +813,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/testdata/2.txt" />
     <entry file="file://$PROJECT_DIR$/testdata/1.txt" />
-    <entry file="file://$PROJECT_DIR$/testdata/0.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="48" lean-forward="true" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/Parser/Mx.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="137" column="31" lean-forward="true" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/Symbol/ClassScanner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -862,20 +847,6 @@
             <element signature="method#visit#28;class#ClassScanner#0" />
             <element signature="method#visit#29;class#ClassScanner#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/program.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="27" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -919,12 +890,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="27" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/program.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testdata/0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/Symbol/SemanticChecker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="532" column="58" selection-start-line="532" selection-start-column="58" selection-end-line="532" selection-end-column="58" />
+        <state relative-caret-position="50">
+          <caret line="306" column="28" lean-forward="true" selection-start-line="306" selection-start-column="28" selection-end-line="306" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#5018#5019#0" expanded="true" />
+            <element signature="e#5077#5078#0" expanded="true" />
             <element signature="e#7548#7549#0" expanded="true" />
             <element signature="e#7576#7577#0" expanded="true" />
             <element signature="e#8321#8322#0" expanded="true" />
@@ -933,6 +927,23 @@
             <element signature="e#11112#11113#0" expanded="true" />
             <element signature="e#11885#11886#0" expanded="true" />
             <element signature="e#11913#11914#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/Parser/Mx.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="132" column="37" lean-forward="true" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/AST/ASTBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="326" column="56" selection-start-line="326" selection-start-column="56" selection-end-line="326" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
