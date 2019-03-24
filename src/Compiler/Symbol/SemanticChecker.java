@@ -96,7 +96,7 @@ public class SemanticChecker implements ASTVisitor {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of variable '" + variableSymbol.name + "'");
         } else if (currentScope.containFunction(variableSymbol.name)) {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of '" + variableSymbol.name + "'; previously as a function");
-        } else if (global.containClass(variableSymbol.name)) {
+        } else if (variableSymbol.isGlobal && global.containClass(variableSymbol.name)) {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of '" + variableSymbol.name + "'; previously as a class");
         } else {
             currentScope.addVariable(variableSymbol.name, variableSymbol);
@@ -523,14 +523,14 @@ public class SemanticChecker implements ASTVisitor {
         node.expression.accept(this);
         if (node.expression.type == null) return;
         if (node.expression.type.match(intType)) {
-            if (unaryAriOp(node.op) || selfIncSuffixOp(node.op)) {
+            if (unaryAriOp(node.op)) {
                 node.type = intType;
-            } else if (selfIncPrefixOp(node.op)) {
+            } else if (selfIncPrefixOp(node.op) || selfIncSuffixOp(node.op)) {
                 if (!node.expression.isLeft) {
                     errorRecorder.addRecord(node.expression.location, "expression is not assignable");
                 } else {
                     node.type = intType;
-                    node.isLeft = true;
+                    node.isLeft = selfIncPrefixOp(node.op);
                 }
             } else {
                 errorRecorder.addRecord(node.location, "undefined operation '" + node.op + "' for int typeNode");

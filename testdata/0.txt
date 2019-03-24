@@ -4,3 +4,11 @@ int main()
 {
 
 }
+
+/*
+creator
+    :   nonArrayTypeSpecifier ('[' expression ']')+ ('[' ']')+ ('[' expression ']')+   # creatorError
+    |   nonArrayTypeSpecifier ('[' expression ']')+ ('[' ']')*                         # creatorArray
+    |   nonArrayTypeSpecifier                                                          # creatorNonArray
+    ;
+*/

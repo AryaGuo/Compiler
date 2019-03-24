@@ -57,18 +57,23 @@ public class GlobalDeclarator implements ASTVisitor {
         variableSymbol.location = variableDeclaration.location;
         variableSymbol.isGlobal = (currentScope instanceof GlobalSymbolTable);
         variableSymbol.type = resolveType(variableDeclaration.type);
-        defineVariable(variableSymbol);
-        variableDeclaration.variableSymbol = variableSymbol;
+        if (defineVariable(variableSymbol)) {
+            variableDeclaration.variableSymbol = variableSymbol;
+        }
     }
 
-    private void defineVariable(VariableSymbol variableSymbol) {
+    private boolean defineVariable(VariableSymbol variableSymbol) {
         if (currentScope.containVariable(variableSymbol.name)) {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of variable '" + variableSymbol.name + "'");
-        } else if (global.containClass(variableSymbol.name)) {
+        } else if (variableSymbol.isGlobal && global.containClass(variableSymbol.name)) {
             errorRecorder.addRecord(variableSymbol.location, "redefinition of '" + variableSymbol.name + "'; previously as a class");
+        } else if (currentScope.containFunction(variableSymbol.name)) {
+            errorRecorder.addRecord(variableSymbol.location, "redefinition of '" + variableSymbol.name + "'; previously as a function");
         } else {
             currentScope.addVariable(variableSymbol.name, variableSymbol);
+            return true;
         }
+        return false;
     }
 
     private void defineFunction(FunctionDeclaration functionDeclaration) {
@@ -99,6 +104,8 @@ public class GlobalDeclarator implements ASTVisitor {
             errorRecorder.addRecord(functionSymbol.location, "redefinition of function '" + functionSymbol.name + "'");
         } else if (functionSymbol.isGlobal && global.containClass(functionSymbol.name)) {
             errorRecorder.addRecord(functionSymbol.location, "redefinition of '" + functionSymbol.name + "'; previously as a class");
+        } else if (currentScope.containVariable(functionSymbol.name)) {
+            errorRecorder.addRecord(functionSymbol.location, "redefinition of '" + functionSymbol.name + "'; previously as a variable");
         } else {
             currentScope.addFunction(functionSymbol.name, functionSymbol);
         }
