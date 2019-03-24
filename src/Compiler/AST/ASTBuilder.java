@@ -147,6 +147,10 @@ public class ASTBuilder extends MxBaseVisitor {
             ClassTypeNode classTypeNode = new ClassTypeNode(ctx.IDENTIFIER().getText());
             classTypeNode.location = new TokenLocation(ctx);
             return classTypeNode;
+        } else if (ctx.token.getText().equals("string")) {
+            ClassTypeNode classTypeNode = new ClassTypeNode("string");
+            classTypeNode.location = new TokenLocation(ctx);
+            return classTypeNode;
         } else {
             PrimitiveTypeNode primitiveTypeNode = new PrimitiveTypeNode(ctx.token.getText());
             primitiveTypeNode.location = new TokenLocation(ctx);

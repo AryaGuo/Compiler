@@ -10,6 +10,12 @@ public class GlobalSymbolTable extends SymbolTable {
     public Map<String, ClassSymbol> classTable;
     public Map<String, PrimitiveSymbol> primitiveTable;
 
+    public PrimitiveSymbol intType;
+    public PrimitiveSymbol boolType;
+    public PrimitiveSymbol voidType;
+    public ClassSymbol stringType;
+    public ClassSymbol nullType;
+
     public GlobalSymbolTable() {
         super(null);
         classTable = new HashMap<>();
@@ -20,9 +26,11 @@ public class GlobalSymbolTable extends SymbolTable {
     public boolean containClass(String name) {
         return classTable.containsKey(name);
     }
+
     public void addClass(String name, ClassSymbol classSymbol) {
         classTable.put(name, classSymbol);
     }
+
     public ClassSymbol getClass(String name) {
         return classTable.get(name);
     }
@@ -30,6 +38,7 @@ public class GlobalSymbolTable extends SymbolTable {
     public void addPrimitive(PrimitiveSymbol primitiveSymbol) {
         primitiveTable.put(primitiveSymbol.name, primitiveSymbol);
     }
+
     public PrimitiveSymbol getPrimitive(String name) {
         return primitiveTable.get(name);
     }
@@ -41,20 +50,44 @@ public class GlobalSymbolTable extends SymbolTable {
         addPrimitive(new PrimitiveSymbol("void"));
 
 //        null symbol
-        ClassSymbol nullSymbol = new ClassSymbol("null");
-        nullSymbol.location = new TokenLocation(0,0);
+        ClassSymbol nullSymbol = new ClassSymbol("null") {
+            @Override
+            public boolean match(Type type) {
+                if (type instanceof ArrayType) return true;
+                if (type instanceof ClassSymbol) {
+                    if (((ClassSymbol) type).name.equals("string")) return false;
+                    else return true;
+                }
+                return false;
+            }
+        };
+        nullSymbol.location = new TokenLocation(0, 0);
         nullSymbol.symbolTable = new SymbolTable(this);
         addClass("null", nullSymbol);
 
 //        string symbol
-        ClassSymbol stringSymbol = new ClassSymbol("string");
+        ClassSymbol stringSymbol = new ClassSymbol("string") {
+            @Override
+            public boolean match(Type type) {
+                if (type instanceof ClassSymbol) return this.name.equals(((ClassSymbol) type).name);
+                else return false;
+            }
+        };
         stringSymbol.location = new TokenLocation(0, 0);
         stringSymbol.symbolTable = new SymbolTable(this);
+        addClass("string", stringSymbol);
+
+        intType = getPrimitive("int");
+        boolType = getPrimitive("bool");
+        voidType = getPrimitive("void");
+        stringType = getClass("string");
+        nullType = getClass("null");
+
         stringSymbol.symbolTable.addFunction("length", _stringLength());
         stringSymbol.symbolTable.addFunction("substring", _stringSubstring());
         stringSymbol.symbolTable.addFunction("parseInt", _stringParseInt());
         stringSymbol.symbolTable.addFunction("ord", _stringOrd());
-        addClass("string", stringSymbol);
+
 
 //        builtin functions
         addFunction("print", _globalPrint());
@@ -62,27 +95,15 @@ public class GlobalSymbolTable extends SymbolTable {
         addFunction("getString", _globalGetString());
         addFunction("getInt", _globalGetInt());
         addFunction("toString", _globalToString());
-    }
 
-    private Type boolType() {
-        return getPrimitive("bool");
-    }
-    private Type voidType() {
-        return getPrimitive("void");
-    }
-    private Type intType() {
-        return getPrimitive("int");
-    }
-    private Type stringType() {
-        return getClass("string");
     }
 
     private FunctionSymbol _stringLength() {
         FunctionSymbol ret = new FunctionSymbol("string.length");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = intType();
+        ret.returnType = intType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("this");
         return ret;
     }
@@ -90,13 +111,13 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _stringSubstring() {
         FunctionSymbol ret = new FunctionSymbol("string.substring");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = stringType();
+        ret.returnType = stringType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("this");
-        ret.parameterTypeList.add(intType());
+        ret.parameterTypeList.add(intType);
         ret.parameterNameList.add("left");
-        ret.parameterTypeList.add(intType());
+        ret.parameterTypeList.add(intType);
         ret.parameterNameList.add("right");
         return ret;
     }
@@ -104,9 +125,9 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _stringParseInt() {
         FunctionSymbol ret = new FunctionSymbol("string.parseInt");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = intType();
+        ret.returnType = intType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("this");
         return ret;
     }
@@ -114,11 +135,11 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _stringOrd() {
         FunctionSymbol ret = new FunctionSymbol("string.ord");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = intType();
+        ret.returnType = intType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("this");
-        ret.parameterTypeList.add(intType());
+        ret.parameterTypeList.add(intType);
         ret.parameterNameList.add("pos");
         return ret;
     }
@@ -126,9 +147,9 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _globalPrint() {
         FunctionSymbol ret = new FunctionSymbol("print");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = voidType();
+        ret.returnType = voidType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("str");
         return ret;
     }
@@ -136,9 +157,9 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _globalPrintln() {
         FunctionSymbol ret = new FunctionSymbol("println");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = voidType();
+        ret.returnType = voidType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(stringType());
+        ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("str");
         return ret;
     }
@@ -146,7 +167,7 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _globalGetString() {
         FunctionSymbol ret = new FunctionSymbol("getString");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = stringType();
+        ret.returnType = stringType;
         ret.isGlobal = true;
         return ret;
     }
@@ -154,7 +175,7 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _globalGetInt() {
         FunctionSymbol ret = new FunctionSymbol("getInt");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = intType();
+        ret.returnType = intType;
         ret.isGlobal = true;
         return ret;
     }
@@ -162,9 +183,9 @@ public class GlobalSymbolTable extends SymbolTable {
     private FunctionSymbol _globalToString() {
         FunctionSymbol ret = new FunctionSymbol("toString");
         ret.location = new TokenLocation(0, 0);
-        ret.returnType = stringType();
+        ret.returnType = stringType;
         ret.isGlobal = true;
-        ret.parameterTypeList.add(intType());
+        ret.parameterTypeList.add(intType);
         ret.parameterNameList.add("i");
         return ret;
     }

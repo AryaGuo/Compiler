@@ -32,15 +32,15 @@ public class MxParser extends Parser {
 	public static final int
 		RULE_program = 0, RULE_declaration = 1, RULE_variableDeclaration = 2, 
 		RULE_variableDeclarators = 3, RULE_variableDeclarator = 4, RULE_functionDeclaration = 5, 
-		RULE_classDeclaration = 6, RULE_parameterList = 7, RULE_type = 8, RULE_baseType = 9, 
-		RULE_arrayType = 10, RULE_returnType = 11, RULE_constructorDeclaration = 12,
+		RULE_classDeclaration = 6, RULE_parameterList = 7, RULE_type = 8, RULE_baseType = 9,
+            RULE_arrayType = 10, RULE_returnType = 11, RULE_constructorDeclaration = 12,
             RULE_functionBody = 13, RULE_statement = 14, RULE_expression = 15, RULE_functionCall = 16,
             RULE_creator = 17, RULE_empty = 18;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"program", "declaration", "variableDeclaration", "variableDeclarators", 
-			"variableDeclarator", "functionDeclaration", "classDeclaration", "parameterList", 
-			"type", "baseType", "arrayType", "returnType", "constructorDeclaration",
+			"variableDeclarator", "functionDeclaration", "classDeclaration", "parameterList",
+                "type", "baseType", "arrayType", "returnType", "constructorDeclaration",
                 "functionBody", "statement", "expression", "functionCall", "creator",
                 "empty"
 		};

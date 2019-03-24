@@ -318,7 +318,11 @@ public class ASTPrinter implements ASTVisitor {
     public void visit(MemberExpression node) {
         node.lhs.accept(this);
         appendCurrentLine(".");
-        visit(node.identifier);
+        if (node.identifier != null) {
+            visit(node.identifier);
+        } else {
+            visit(node.functionCall);
+        }
     }
 
     @Override

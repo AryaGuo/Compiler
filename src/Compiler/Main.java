@@ -26,10 +26,10 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        run(args[0]);
+        run();
     }
 
-    private static void run(String input) throws IOException {
+    private static void run() throws IOException {
 //        System.out.println("compiling " + input);
 //        InputStream inputStream = new FileInputStream(input);
         InputStream inputStream = new FileInputStream("program.txt");

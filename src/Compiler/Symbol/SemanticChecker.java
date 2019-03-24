@@ -32,11 +32,11 @@ public class SemanticChecker implements ASTVisitor {
         this.errorRecorder = errorRecorder;
         this.global = global;
         this.currentScope = global;
-        intType = global.getPrimitive("int");
-        boolType = global.getPrimitive("bool");
-        voidType = global.getPrimitive("void");
-        stringType = global.getClass("string");
-        nullType = global.getClass("null");
+        intType = global.intType;
+        boolType = global.boolType;
+        voidType = global.voidType;
+        stringType = global.stringType;
+        nullType = global.nullType;
     }
 
     private Type getArrayType(Type baseType, int dimension) {
@@ -367,7 +367,13 @@ public class SemanticChecker implements ASTVisitor {
         if (!node.lhs.type.match(node.rhs.type)) {
             errorRecorder.addRecord(node.location, "incompatible typeNode of '" + node.lhs.type.toString() + "' and '" + node.rhs.type.toString() + "'");
         } else {
-            if (node.lhs.type.match(intType)) {
+            if (node.lhs.type.equals(nullType) || node.rhs.type.equals(nullType)) {
+                if (equalityOp(node.op)) {
+                    node.type = boolType;
+                } else {
+                    errorRecorder.addRecord(node.location, "undefined operation '" + node.op + "' for null");
+                }
+            } else if (node.lhs.type.match(intType)) {
                 if (arithmeticOp(node.op)) {
                     node.type = intType;
                 } else if (equalityOp(node.op) || compareOp(node.op)) {
@@ -397,7 +403,6 @@ public class SemanticChecker implements ASTVisitor {
 
     @Override
     public void visit(FuncCallExpression node) {
-        node.function.accept(this);
         node.functionSymbol = resolveFunction(currentScope, node.function.name);
         node.parameterList.forEach(expression -> expression.accept(this));
         if (node.functionSymbol == null) {
