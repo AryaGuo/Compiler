@@ -1,9 +1,9 @@
 # Fdb version 3
-["xdvipdfmx"] 1553669478 "mid-term.xdv" "mid-term.pdf" "mid-term" 1553669479
-  "mid-term.xdv" 1553669478 18732 2ea6cd2318e305038aae9ff61114cee5 "xelatex"
+["xdvipdfmx"] 1554348978 "mid-term.xdv" "mid-term.pdf" "mid-term" 1554348978
+  "mid-term.xdv" 1554348977 19272 bb09cc25587b2de8ac572e4be214906f "xelatex"
   (generated)
   "mid-term.pdf"
-["xelatex"] 1553669476 "mid-term.tex" "mid-term.xdv" "mid-term" 1553669479
+["xelatex"] 1554348975 "mid-term.tex" "mid-term.xdv" "mid-term" 1554348978
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1480098689 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
@@ -100,12 +100,12 @@
   "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
   "/usr/local/texlive/2017/texmf-var/web2c/xetex/xelatex.fmt" 1519813338 3678523 2f12f78feb40ee4b631766524d5091d1 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "mid-term.aux" 1553669478 965 499f03842b34703451f463561439492c ""
-  "mid-term.out" 1553669478 185 d363f948a8c4dd7f2ba7bb2284bf855b ""
-  "mid-term.tex" 1553669476 3229 a32458a34affee95f0bf3e8ccf4fd38c ""
+  "mid-term.aux" 1554348977 965 499f03842b34703451f463561439492c ""
+  "mid-term.out" 1554348977 185 d363f948a8c4dd7f2ba7bb2284bf855b ""
+  "mid-term.tex" 1554348974 3325 f9e3307a9135b588afc7426576100bd2 ""
   "symbol.png" 1553668082 39647 8c455723181ddfa1d7a4dcade519dd1b ""
   (generated)
   "mid-term.log"
+  "mid-term.aux"
   "mid-term.out"
   "mid-term.xdv"
-  "mid-term.aux"

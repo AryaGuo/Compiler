@@ -7,7 +7,8 @@
 #遇到的问题
 说一说在具体的设计中几处模糊的地方。
 首先是AST与ANTLR生成的parse tree。后者应该属于CST(concrete syntax tree)，我要做的第一步是从这棵树自己建出一颗更灵活的AST，方便后面的检查、优化。
-然后是”type node“和”type“与”symbol“。前者是AST上的一种节点，后者可以用《编程语言实现模式》一书的结构来解释。
+然后是"type node"和"type"与"symbol"。前者是AST上的一种节点，后者可以用《编程语言实现模式》一书的结构来解释。
+最后一个深切的体会：没事不要用private给自己找麻烦。
 
 #建议
-OJ的使用说明要及时更新呀。
+OJ的使用说明和git上的testcase要及时更新呀。
