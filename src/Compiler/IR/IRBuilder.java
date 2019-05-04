@@ -60,7 +60,7 @@ public class IRBuilder implements ASTVisitor {
     private static Function string_substring;
     private static Function string_parseInt;
     private static Function string_ord;
-    private static Function stringConcat;
+    private static Function stringConcate;
     private static Function stringCompare;
     private static Function external_malloc;
     private static Function init;
@@ -98,7 +98,7 @@ public class IRBuilder implements ASTVisitor {
         string_ord = new Function("string_ord", true, Function.Type.Library);
         functionMap.put("string.ord", string_ord);
 
-        stringConcat = new Function("stringConcat", true, Function.Type.Library);
+        stringConcate = new Function("stringConcate", true, Function.Type.Library);
         stringCompare = new Function("stringCompare", true, Function.Type.Library);
         external_malloc = new Function("malloc", true, Function.Type.External);
 
@@ -791,7 +791,7 @@ public class IRBuilder implements ASTVisitor {
             curBB.append(new Move(curBB, vr, orhs));
             orhs = vr;
         }
-        curBB.append(new Call(curBB, vrax, stringConcat, olhs, orhs));
+        curBB.append(new Call(curBB, vrax, stringConcate, olhs, orhs));
         curBB.append(new Move(curBB, res, vrax));
         return res;
     }

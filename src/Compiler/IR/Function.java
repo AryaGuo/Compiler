@@ -19,7 +19,7 @@ import static Compiler.IR.RegisterSet.calleeSave;
 public class Function {
 
     public enum Type {
-        External, Library, UserDefined;
+        External, Library, UserDefined
     }
 
     public String name;

@@ -76,7 +76,7 @@ public class StackFrameBuilder {
 //        prologue
         IRInstruction instruction = function.enterBB.head;
         instruction.prepend(new Push(function.enterBB, rbp));
-        instruction.prepend(new Move(function.enterBB, rsp, rbp));
+        instruction.prepend(new Move(function.enterBB, rbp, rsp));
         instruction.prepend(new BinaryInst(function.enterBB, BinaryInst.Op.SUB, rsp, new Immediate(frame.getFrameSize())));
 //        push callee-saved regs
         instruction = instruction.pre;  // after sub
