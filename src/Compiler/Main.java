@@ -37,7 +37,7 @@ public class Main {
     }
 
     private static void run() throws IOException {
-        InputStream inputStream = new FileInputStream("program.txt");
+        InputStream inputStream = new FileInputStream("program.c");
         CharStream charStream = CharStreams.fromStream(inputStream);
         MxLexer mxLexer = new MxLexer(charStream);
         CommonTokenStream tokenStream = new CommonTokenStream(mxLexer);
@@ -98,6 +98,9 @@ public class Main {
         IRBuilder irBuilder = new IRBuilder(globalSymbolTable);
         program.accept(irBuilder);
         IRProgram irProgram = irBuilder.getIrProgram();
+        if (irBuilder.failed) {
+            exit(0);
+        }
 
         if (Config.printIR) {
             IRPrinter irPrinter = new IRPrinter();

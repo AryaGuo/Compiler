@@ -149,7 +149,7 @@ public class IRBuilder implements ASTVisitor {
         }
 
         for (FunctionDeclaration functionDeclaration : functionDeclarations) {
-            functionMap.put(functionDeclaration.name, new Function(functionDeclaration.name,
+            functionMap.put(functionDeclaration.functionSymbol.name, new Function(functionDeclaration.functionSymbol.name,
                     functionDeclaration.returnType != null, Function.Type.UserDefined));
         }
 
@@ -188,7 +188,7 @@ public class IRBuilder implements ASTVisitor {
 
     @Override
     public void visit(FunctionDeclaration node) {
-        curFunction = functionMap.get(node.name);
+        curFunction = functionMap.get(node.functionSymbol.name);
         curBB = new BasicBlock("enter " + curFunction.name, curFunction);
         curFunction.enterBB = curBB;
 
@@ -487,7 +487,7 @@ public class IRBuilder implements ASTVisitor {
             parameter.accept(this);
             args.add(exprToOperand.get(parameter));
         }
-        curBB.append(new Call(curBB, vrax, functionMap.get(node.function.name), args));
+        curBB.append(new Call(curBB, vrax, functionMap.get(node.functionSymbol.name), args));
 
         if (node.functionSymbol.returnType != null) {
             VirtualRegister ret = new VirtualRegister("");
@@ -546,9 +546,18 @@ public class IRBuilder implements ASTVisitor {
         exprToOperand.put(node, operand);
     }
 
+    public boolean failed = false;
+
     @Override
     public void visit(MemberExpression node) {
+        if (isNull(node.lhs.type)) {
+            failed = true;
+            return;
+        }
         node.lhs.accept(this);
+        if (failed) {
+            return;
+        }
         VirtualRegister base = new VirtualRegister("");
         curBB.append(new Move(curBB, base, exprToOperand.get(node.lhs)));
 
@@ -567,7 +576,7 @@ public class IRBuilder implements ASTVisitor {
                     parameter.accept(this);
                     args.add(exprToOperand.get(parameter));
                 }
-                curBB.append(new Call(curBB, vrax, functionMap.get(node.functionCall.function.name), args));
+                curBB.append(new Call(curBB, vrax, functionMap.get(node.functionCall.functionSymbol.name), args));
                 if (node.functionCall.functionSymbol.returnType != null) {
                     VirtualRegister ret = new VirtualRegister("");
                     curBB.append(new Move(curBB, ret, vrax));
@@ -699,6 +708,10 @@ public class IRBuilder implements ASTVisitor {
 
     private boolean isVoid(Type type) {
         return type.match(globalSymbolTable.voidType);
+    }
+
+    private boolean isNull(Type type) {
+        return type instanceof ClassSymbol && ((ClassSymbol) type).name.equals("null");
     }
 
     private boolean isRelationalOp(String op) {

@@ -20,6 +20,7 @@ public class GlobalDeclarator implements ASTVisitor {
     private GlobalSymbolTable global;
     private SymbolTable currentScope;
     private ClassSymbol currentClass;
+    private boolean inParameter;
 
     public GlobalDeclarator(ErrorRecorder errorRecorder, GlobalSymbolTable global) {
         this.errorRecorder = errorRecorder;
@@ -57,7 +58,7 @@ public class GlobalDeclarator implements ASTVisitor {
         variableSymbol.location = variableDeclaration.location;
         variableSymbol.isGlobal = (currentScope instanceof GlobalSymbolTable);
         variableSymbol.type = resolveType(variableDeclaration.type);
-        variableSymbol.isClassField = (currentClass != null);
+        variableSymbol.isClassField = (currentClass != null && !inParameter);
         if (defineVariable(variableSymbol)) {
             variableDeclaration.variableSymbol = variableSymbol;
         }
@@ -83,8 +84,10 @@ public class GlobalDeclarator implements ASTVisitor {
         functionSymbol.returnType = resolveType(functionDeclaration.returnType);
         functionSymbol.symbolTable = new SymbolTable(currentScope);
         functionSymbol.isGlobal = (currentScope instanceof GlobalSymbolTable);
+        if (!functionSymbol.isGlobal) {
+            functionSymbol.name = currentClass.name + "." + functionSymbol.name;
+        }
 
-        //todo
         enterScope(functionSymbol.symbolTable);
         if (currentClass != null) {
             functionSymbol.parameterNameList.add("this");
@@ -97,18 +100,20 @@ public class GlobalDeclarator implements ASTVisitor {
         for (VariableDeclaration x : functionDeclaration.parameterList) {
             functionSymbol.parameterNameList.add(x.name);
             functionSymbol.parameterTypeList.add(resolveType(x.type));
+            inParameter = true;
             defineVariable(x);
+            inParameter = false;
         }
         exitScope();
 
-        if (currentScope.containFunction(functionSymbol.name)) {
+        if (currentScope.containFunction(functionDeclaration.name)) {
             errorRecorder.addRecord(functionSymbol.location, "redefinition of function '" + functionSymbol.name + "'");
-        } else if (functionSymbol.isGlobal && global.containClass(functionSymbol.name)) {
+        } else if (functionSymbol.isGlobal && global.containClass(functionDeclaration.name)) {
             errorRecorder.addRecord(functionSymbol.location, "redefinition of '" + functionSymbol.name + "'; previously as a class");
-        } else if (currentScope.containVariable(functionSymbol.name)) {
+        } else if (currentScope.containVariable(functionDeclaration.name)) {
             errorRecorder.addRecord(functionSymbol.location, "redefinition of '" + functionSymbol.name + "'; previously as a variable");
         } else {
-            currentScope.addFunction(functionSymbol.name, functionSymbol);
+            currentScope.addFunction(functionDeclaration.name, functionSymbol);
         }
         functionDeclaration.functionSymbol = functionSymbol;
     }
@@ -153,7 +158,6 @@ public class GlobalDeclarator implements ASTVisitor {
     @Override
     public void visit(VariableDeclaration node) {
         defineVariable(node);
-
     }
 
     @Override

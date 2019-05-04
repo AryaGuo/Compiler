@@ -455,7 +455,7 @@ public class SemanticChecker implements ASTVisitor {
             return;
         }
         node.type = node.symbol.type;
-        if (node.symbol.isGlobal) {
+        if (node.symbol.isGlobal && currentFunction != null) {
             currentFunction.usedGlobals.add(node.symbol);
         }
     }
@@ -499,7 +499,20 @@ public class SemanticChecker implements ASTVisitor {
                     errorRecorder.addRecord(node.functionCall.location, "undefined function '" + node.functionCall.function.name + "' in '" + type.toString() + "'");
                     return;
                 }
+                node.functionCall.functionSymbol = functionSymbol;
                 node.type = functionSymbol.returnType;
+                int n = functionSymbol.parameterTypeList.size();
+                int st = 1;
+                if (n - st != node.functionCall.parameterList.size()) {
+                    errorRecorder.addRecord(node.location, "mismatching argument numbers");
+                } else {
+                    for (int i = st; i < n; ++i) {
+                        if (node.functionCall.parameterList.get(i - st).type == null) return;
+                        if (!functionSymbol.parameterTypeList.get(i).match(node.functionCall.parameterList.get(i - st).type)) {
+                            errorRecorder.addRecord(node.location, "mismatching argument types");
+                        }
+                    }
+                }
             }
         } else if (type instanceof ArrayType) {
             if (!(node.functionCall != null && node.functionCall.function.name.equals("size"))) {
