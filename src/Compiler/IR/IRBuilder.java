@@ -318,7 +318,11 @@ public class IRBuilder implements ASTVisitor {
 
     @Override
     public void visit(ExprStatement node) {
-        node.expression.accept(this);
+        if (isBoolean(node.expression.type)) {
+            createBBForBool(node.expression);
+        } else {
+            node.expression.accept(this);
+        }
     }
 
     @Override
@@ -484,7 +488,11 @@ public class IRBuilder implements ASTVisitor {
             args.add(curThisPointer);
         }
         for (Expression parameter : node.parameterList) {
-            parameter.accept(this);
+            if (isBoolean(parameter.type)) {
+                createBBForBool(parameter);
+            } else {
+                parameter.accept(this);
+            }
             args.add(exprToOperand.get(parameter));
         }
         curBB.append(new Call(curBB, vrax, functionMap.get(node.functionSymbol.name), args));
@@ -498,8 +506,8 @@ public class IRBuilder implements ASTVisitor {
                 exprToOperand.put(node, ret);
             }
         }
-
     }
+
 
     @Override
     public void visit(Identifier node) {
@@ -530,8 +538,9 @@ public class IRBuilder implements ASTVisitor {
                 operand = new Immediate(Integer.valueOf(node.value));
                 break;
             case "bool":
+                operand = new Immediate(node.value.equals("true") ? 1 : 0);
                 curBB.append(new Jump(curBB, node.value.equals("true") ? trueList.get(node) : falseList.get(node)));
-                return;
+                break;
             case "null":
                 operand = new Immediate(0);
                 break;
@@ -544,6 +553,18 @@ public class IRBuilder implements ASTVisitor {
                 assert false;
         }
         exprToOperand.put(node, operand);
+    }
+
+    private void createBBForBool(Expression expr) {
+        BasicBlock trueBB = new BasicBlock("trueBB", curFunction);
+        BasicBlock falseBB = new BasicBlock("falseBB", curFunction);
+        BasicBlock afterBB = new BasicBlock("afterBB", curFunction);
+        trueList.put(expr, trueBB);
+        falseList.put(expr, falseBB);
+        expr.accept(this);
+        trueBB.append(new Jump(trueBB, afterBB));
+        falseBB.append(new Jump(falseBB, afterBB));
+        curBB = afterBB;
     }
 
     public boolean failed = false;
@@ -906,5 +927,4 @@ public class IRBuilder implements ASTVisitor {
         falseList.put(rhs, falseBB);
         rhs.accept(this);
     }
-
 }
