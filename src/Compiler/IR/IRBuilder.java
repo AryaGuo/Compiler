@@ -19,7 +19,7 @@ import Compiler.Symbol.*;
 
 import java.util.*;
 
-import static Compiler.IR.RegisterSet.vrax;
+import static Compiler.IR.RegisterSet.*;
 
 public class IRBuilder implements ASTVisitor {
 
@@ -343,19 +343,22 @@ public class IRBuilder implements ASTVisitor {
         node.body.accept(this);
         continueList.pop();
         breakList.pop();
+        curBB.append(new Jump(curBB, stepBB));
 
+        curBB = stepBB;
         if (node.step != null) {
-            curBB = stepBB;
             node.step.accept(this);
         }
+        curBB.append(new Jump(curBB, condBB));
 
+        curBB = condBB;
         if (node.condition != null) {
-            curBB = condBB;
             trueList.put(node.condition, bodyBB);
             falseList.put(node.condition, doneBB);
             node.condition.accept(this);
+        } else {
+            curBB.append(new Jump(curBB, bodyBB));
         }
-
         curBB = doneBB;
     }
 
@@ -411,6 +414,7 @@ public class IRBuilder implements ASTVisitor {
         node.body.accept(this);
         continueList.pop();
         breakList.pop();
+        curBB.append(new Jump(curBB, condBB));
 
         curBB = condBB;
         trueList.put(node.condition, bodyBB);
@@ -682,6 +686,7 @@ public class IRBuilder implements ASTVisitor {
             Operand pointer = allocateMemory(dims, baseBytes, constructor, isClass);
             curBB.append(new Move(curBB, new Memory(ret, size, Config.REGISTER_WIDTH), pointer));
             curBB.append(new UnaryInst(curBB, UnaryInst.Op.DEC, size));
+            curBB.append(new Jump(curBB, condBB));
 
             curBB = condBB;
             curBB.append(new CJump(curBB, CJump.Op.G, bodyBB, doneBB, size, new Immediate(0)));
@@ -829,15 +834,19 @@ public class IRBuilder implements ASTVisitor {
 
     private Operand doBinaryArithmetic(Expression lhs, Expression rhs, String op) {
         BinaryInst.Op bop = null;
+        boolean special = false;
         switch (op) {
             case "*":
                 bop = BinaryInst.Op.MUL;
+                special = true;
                 break;
             case "/":
                 bop = BinaryInst.Op.DIV;
+                special = true;
                 break;
             case "%":
                 bop = BinaryInst.Op.MOD;
+                special = true;
                 break;
             case "+":
                 bop = BinaryInst.Op.ADD;
@@ -846,10 +855,10 @@ public class IRBuilder implements ASTVisitor {
                 bop = BinaryInst.Op.SUB;
                 break;
             case "<<":
-                bop = BinaryInst.Op.SHL;
+                bop = BinaryInst.Op.SAL;
                 break;
             case ">>":
-                bop = BinaryInst.Op.SHR;
+                bop = BinaryInst.Op.SAR;
                 break;
             case "&":
                 bop = BinaryInst.Op.AND;
@@ -861,14 +870,39 @@ public class IRBuilder implements ASTVisitor {
                 bop = BinaryInst.Op.OR;
                 break;
         }
+
         lhs.accept(this);
         rhs.accept(this);
         Operand olhs = exprToOperand.get(lhs);
         Operand orhs = exprToOperand.get(rhs);
-        VirtualRegister vr = new VirtualRegister("");
-        curBB.append(new Move(curBB, vr, olhs));
-        curBB.append(new BinaryInst(curBB, bop, vr, orhs));
-        return vr;
+        VirtualRegister ret = new VirtualRegister("");
+
+        if (special) {
+            if (op.equals("*")) {
+                curBB.append(new Move(curBB, vrax, olhs));
+                curBB.append(new BinaryInst(curBB, bop, null, orhs));
+                curBB.append(new Move(curBB, ret, vrax));
+            } else {
+                curBB.append(new Move(curBB, vrax, olhs));
+                curBB.append(new Cdq(curBB));
+                curBB.append(new BinaryInst(curBB, bop, null, orhs));
+                if (op.equals("/")) {
+                    curBB.append(new Move(curBB, ret, vrax));
+                } else {
+                    curBB.append(new Move(curBB, ret, vrdx));
+                }
+            }
+        } else {
+            if (op.equals("<<") || op.equals(">>")) {
+                curBB.append(new Move(curBB, vrcx, orhs));
+                curBB.append(new Move(curBB, ret, olhs));
+                curBB.append(new BinaryInst(curBB, bop, ret, vrcx));
+            } else {
+                curBB.append(new Move(curBB, ret, olhs));
+                curBB.append(new BinaryInst(curBB, bop, ret, orhs));
+            }
+        }
+        return ret;
     }
 
     private void doRelationalBinary(Expression lhs, Expression rhs, String op, BasicBlock trueBB, BasicBlock falseBB) {

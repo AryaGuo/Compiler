@@ -51,6 +51,26 @@ public class CJump extends IRInstruction {
         this.src2 = src2;
     }
 
+    public void reverse() {
+        Operand tmp = src1;
+        src1 = src2;
+        src2 = tmp;
+        switch (op) {
+            case G:
+                op = Op.L;
+                break;
+            case GE:
+                op = Op.LE;
+                break;
+            case L:
+                op = Op.G;
+                break;
+            case LE:
+                op = Op.GE;
+                break;
+        }
+    }
+
     @Override
     public List<Register> usedRegs() {
         List<Register> regs = new LinkedList<>();

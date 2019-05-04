@@ -284,19 +284,10 @@ public class IRPrinter implements IRVisitor {
             case AND:
                 op = "and";
                 break;
-            case DIV:
-                op = "div";
-                break;
-            case MOD:
-                op = "mod";
-                break;
-            case MUL:
-                op = "mul";
-                break;
-            case SHL:
+            case SAL:
                 op = "sal";
                 break;
-            case SHR:
+            case SAR:
                 op = "sar";
                 break;
             case SUB:
@@ -306,7 +297,7 @@ public class IRPrinter implements IRVisitor {
                 op = "xor";
                 break;
         }
-        if (inst.op == BinaryInst.Op.SHL || inst.op == BinaryInst.Op.SHR) {
+        if (inst.op == BinaryInst.Op.SAL || inst.op == BinaryInst.Op.SAR) {
             append("\t" + op + " ");
             inst.dest.accept(this);
             append(", cl\n");
@@ -458,10 +449,10 @@ public class IRPrinter implements IRVisitor {
         append("\tleave\n");
     }
 
-//    @Override
-//    public void visit(Cdq inst) {
-//        append("\tcdq\n");
-//    }
+    @Override
+    public void visit(Cdq inst) {
+        append("\tcdq\n");
+    }
 
 //    @Override
 //    public void visit(FunctionAddress operand) {

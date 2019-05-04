@@ -254,4 +254,9 @@ public class IRPrinter_ implements IRVisitor {
 
     }
 
+    @Override
+    public void visit(Cdq inst) {
+
+    }
+
 }

@@ -62,6 +62,11 @@ public class IRCorrector implements IRVisitor {
 
     @Override
     public void visit(BinaryInst inst) {
+        if ((inst.op == BinaryInst.Op.MUL || inst.op == BinaryInst.Op.DIV || inst.op == BinaryInst.Op.MOD) && inst.src instanceof Constant) {
+            VirtualRegister vr = new VirtualRegister("");
+            inst.prepend(new Move(inst.bb, vr, inst.src));
+            inst.src = vr;
+        }
     }
 
     @Override
@@ -113,7 +118,42 @@ public class IRCorrector implements IRVisitor {
 
     @Override
     public void visit(CJump inst) {
-
+        if (inst.src1 instanceof Constant) {
+            if (inst.src2 instanceof Constant) {
+                assert inst.src1 instanceof Immediate;
+                assert inst.src2 instanceof Immediate;
+                int x = ((Immediate) inst.src1).value;
+                int y = ((Immediate) inst.src2).value;
+                boolean res;
+                switch (inst.op) {
+                    case NE:
+                        res = x != y;
+                        break;
+                    case G:
+                        res = x > y;
+                        break;
+                    case E:
+                        res = x == y;
+                        break;
+                    case L:
+                        res = x > y;
+                        break;
+                    case GE:
+                        res = x >= y;
+                        break;
+                    case LE:
+                        res = x <= y;
+                        break;
+                    default:
+                        res = false;
+                        assert false;
+                }
+                inst.prepend(new Jump(inst.bb, res ? inst.thenBB : inst.elseBB));
+                inst.remove();
+            } else {
+                inst.reverse();
+            }
+        }
     }
 
     @Override
@@ -159,6 +199,11 @@ public class IRCorrector implements IRVisitor {
 
     @Override
     public void visit(Leave inst) {
+
+    }
+
+    @Override
+    public void visit(Cdq inst) {
 
     }
 }

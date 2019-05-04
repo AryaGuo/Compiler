@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class BinaryInst extends IRInstruction {
     public enum Op {
-        ADD, SUB, MUL, DIV, MOD, SHL, SHR, AND, OR, XOR;
+        ADD, SUB, MUL, DIV, MOD, SAL, SAR, AND, OR, XOR;
 
         @Override
         public String toString() {
@@ -25,9 +25,9 @@ public class BinaryInst extends IRInstruction {
                     return "div";
                 case MOD:
                     return "mod";
-                case SHL:
+                case SAL:
                     return "shl";
-                case SHR:
+                case SAR:
                     return "shr";
                 case AND:
                     return "and";
