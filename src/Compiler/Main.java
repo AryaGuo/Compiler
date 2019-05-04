@@ -3,6 +3,13 @@ package Compiler;
 import Compiler.AST.ASTBuilder;
 import Compiler.AST.ASTPrinter;
 import Compiler.AST.ASTProgram;
+import Compiler.BackEnd.IRCorrector;
+import Compiler.BackEnd.NaiveAllocator;
+import Compiler.BackEnd.StackFrameBuilder;
+import Compiler.IR.IRBuilder;
+import Compiler.IR.IRPrinter;
+import Compiler.IR.IRProgram;
+import Compiler.IR.RegisterSet;
 import Compiler.Parser.MxLexer;
 import Compiler.Parser.MxParser;
 import Compiler.Symbol.ClassScanner;
@@ -17,6 +24,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -24,32 +32,28 @@ import static java.lang.System.exit;
 
 public class Main {
 
-
     public static void main(String[] args) throws IOException {
         run();
     }
 
     private static void run() throws IOException {
-//        System.out.println("compiling " + input);
-//        InputStream inputStream = new FileInputStream(input);
         InputStream inputStream = new FileInputStream("program.txt");
         CharStream charStream = CharStreams.fromStream(inputStream);
         MxLexer mxLexer = new MxLexer(charStream);
         CommonTokenStream tokenStream = new CommonTokenStream(mxLexer);
         MxParser mxParser = new MxParser(tokenStream);
         ErrorRecorder errorRecorder = new ErrorRecorder();
-
-        //get parse tree, check syntax error
         mxParser.removeErrorListeners();
         mxParser.addErrorListener(new SyntaxErrorListener(errorRecorder));
 
+//        get parse tree, check syntax error
         ParseTree parseTree = mxParser.program();
         if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
         }
 
-        //build AST
+//        build AST
         ASTBuilder astBuilder = new ASTBuilder(errorRecorder);
         parseTree.accept(astBuilder);
         if (errorRecorder.errorOccurred()) {
@@ -64,7 +68,7 @@ public class Main {
             System.out.println(astPrinter.toString());
         }
 
-        //scan classes
+//       pass 1: scan classes
         GlobalSymbolTable globalSymbolTable = new GlobalSymbolTable();
         ClassScanner classScanner = new ClassScanner(errorRecorder, globalSymbolTable);
         program.accept(classScanner);
@@ -73,7 +77,7 @@ public class Main {
             exit(1);
         }
 
-        //global declaration
+//       pass 2: global declaration
         GlobalDeclarator globalDeclarator = new GlobalDeclarator(errorRecorder, globalSymbolTable);
         program.accept(globalDeclarator);
         if (errorRecorder.errorOccurred()) {
@@ -81,12 +85,75 @@ public class Main {
             exit(1);
         }
 
-//        semantic check
+//       pass 3: semantic check
         SemanticChecker semanticChecker = new SemanticChecker(errorRecorder, globalSymbolTable);
         program.accept(semanticChecker);
         if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
+        }
+
+//        AST to IR
+        RegisterSet.init();
+        IRBuilder irBuilder = new IRBuilder(globalSymbolTable);
+        program.accept(irBuilder);
+        IRProgram irProgram = irBuilder.getIrProgram();
+
+        if (Config.printIR) {
+            IRPrinter irPrinter = new IRPrinter();
+            irProgram.accept(irPrinter);
+//            System.out.println(irPrinter.toString());
+//            irPrinter.printTo(new FileOutputStream("IR.txt"));
+            irPrinter.printTo(System.err);
+        }
+
+        IRCorrector irCorrector = new IRCorrector();
+        irCorrector.visit(irProgram);
+
+        if (Config.printIR) {
+            IRPrinter irPrinter = new IRPrinter();
+            irProgram.accept(irPrinter);
+//            irPrinter.printTo(new FileOutputStream("IR_corrected.txt"));
+            irPrinter.printTo(System.err);
+        }
+
+        switch (Config.allocator) {
+            case NaiveAllocator: {
+                NaiveAllocator naiveAllocator = new NaiveAllocator(irProgram);
+                naiveAllocator.run();
+                break;
+            }
+
+//            case SimpleGraphAllocator: {
+//                SimpleGraphAllocator simpleGraphAllocator = new SimpleGraphAllocator(irProgram);
+//                simpleGraphAllocator.run();
+//                break;
+//            }
+        }
+
+        if (Config.printIRAfterAllocator) {
+            IRPrinter irPrinter = new IRPrinter();
+            irProgram.accept(irPrinter);
+//            irPrinter.printTo(new FileOutputStream("IRAfterAllocator.txt"));
+            irPrinter.printTo(System.err);
+        }
+
+        StackFrameBuilder stackFrameBuilder = new StackFrameBuilder(irProgram);
+        stackFrameBuilder.run();
+
+        if (Config.printIRWithFrame) {
+            IRPrinter irPrinter = new IRPrinter();
+            irProgram.accept(irPrinter);
+//            irPrinter.printTo(new FileOutputStream("IRWithFrame.txt"));
+            irPrinter.printTo(System.err);
+        }
+
+        if (Config.printToAsmFile) {
+            IRPrinter irPrinter = new IRPrinter();
+            irPrinter.showNasm = true;
+            irPrinter.showHeader = true;
+            irProgram.accept(irPrinter);
+            irPrinter.printTo(new FileOutputStream("program.asm"));
         }
     }
 

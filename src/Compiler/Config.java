@@ -1,17 +1,11 @@
 package Compiler;
 
-import java.io.FileInputStream;
-import java.io.PrintStream;
-
 public class Config {
     public static int REGISTER_WIDTH = 8;
 
     public enum Allocator {
-        NaiveAllocator, SimpleGraphAllocator, GraphAllocator
+        NaiveAllocator, SimpleGraphAllocator
     }
-
-    public static FileInputStream fin;
-    public static PrintStream fout;
 
     public static boolean useCommonAssignElimination = true;
     public static boolean useOutputIrrelevantElimination = true;
@@ -22,9 +16,9 @@ public class Config {
     public static int inlineMaxDepth = 4;
     public static int inlineOperationsThreshold = 20;
 
-    public static Allocator allocator = Allocator.SimpleGraphAllocator;
+    public static Allocator allocator = Allocator.NaiveAllocator;
     public static boolean printAST = false;
-    public static boolean printIR = true;
+    public static boolean printIR = false;
     public static boolean printIRAfterLocalValueNumberOptimization = false;
     public static boolean printIRAfterUselessInstructionElimination = false;
     public static boolean printIRAfterAllocator = false;

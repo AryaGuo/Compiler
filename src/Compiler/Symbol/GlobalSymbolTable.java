@@ -35,8 +35,8 @@ public class GlobalSymbolTable extends SymbolTable {
         return classTable.get(name);
     }
 
-    public void addPrimitive(PrimitiveSymbol primitiveSymbol) {
-        primitiveTable.put(primitiveSymbol.name, primitiveSymbol);
+    public void addPrimitive(String name) {
+        primitiveTable.put(name, new PrimitiveSymbol(name));
     }
 
     public PrimitiveSymbol getPrimitive(String name) {
@@ -45,9 +45,9 @@ public class GlobalSymbolTable extends SymbolTable {
 
     void init() {
 //        int, bool, void symbols
-        addPrimitive(new PrimitiveSymbol("int"));
-        addPrimitive(new PrimitiveSymbol("bool"));
-        addPrimitive(new PrimitiveSymbol("void"));
+        addPrimitive("int");
+        addPrimitive("bool");
+        addPrimitive("void");
 
 //        null symbol
         ClassSymbol nullSymbol = new ClassSymbol("null") {
@@ -83,22 +83,22 @@ public class GlobalSymbolTable extends SymbolTable {
         stringType = getClass("string");
         nullType = getClass("null");
 
-        stringSymbol.symbolTable.addFunction("length", _stringLength());
-        stringSymbol.symbolTable.addFunction("substring", _stringSubstring());
-        stringSymbol.symbolTable.addFunction("parseInt", _stringParseInt());
-        stringSymbol.symbolTable.addFunction("ord", _stringOrd());
+        stringSymbol.symbolTable.addFunction("length", string_Length());
+        stringSymbol.symbolTable.addFunction("substring", string_Substring());
+        stringSymbol.symbolTable.addFunction("parseInt", string_ParseInt());
+        stringSymbol.symbolTable.addFunction("ord", string_Ord());
 
 
 //        builtin functions
-        addFunction("print", _globalPrint());
-        addFunction("println", _globalPrintln());
-        addFunction("getString", _globalGetString());
-        addFunction("getInt", _globalGetInt());
-        addFunction("toString", _globalToString());
+        addFunction("print", global_Print());
+        addFunction("println", global_Println());
+        addFunction("getString", global_GetString());
+        addFunction("getInt", global_GetInt());
+        addFunction("toString", global_ToString());
 
     }
 
-    private FunctionSymbol _stringLength() {
+    private FunctionSymbol string_Length() {
         FunctionSymbol ret = new FunctionSymbol("string.length");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = intType;
@@ -108,7 +108,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _stringSubstring() {
+    private FunctionSymbol string_Substring() {
         FunctionSymbol ret = new FunctionSymbol("string.substring");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = stringType;
@@ -122,7 +122,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _stringParseInt() {
+    private FunctionSymbol string_ParseInt() {
         FunctionSymbol ret = new FunctionSymbol("string.parseInt");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = intType;
@@ -132,7 +132,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _stringOrd() {
+    private FunctionSymbol string_Ord() {
         FunctionSymbol ret = new FunctionSymbol("string.ord");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = intType;
@@ -144,7 +144,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _globalPrint() {
+    private FunctionSymbol global_Print() {
         FunctionSymbol ret = new FunctionSymbol("print");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = voidType;
@@ -154,7 +154,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _globalPrintln() {
+    private FunctionSymbol global_Println() {
         FunctionSymbol ret = new FunctionSymbol("println");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = voidType;
@@ -164,7 +164,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _globalGetString() {
+    private FunctionSymbol global_GetString() {
         FunctionSymbol ret = new FunctionSymbol("getString");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = stringType;
@@ -172,7 +172,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _globalGetInt() {
+    private FunctionSymbol global_GetInt() {
         FunctionSymbol ret = new FunctionSymbol("getInt");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = intType;
@@ -180,7 +180,7 @@ public class GlobalSymbolTable extends SymbolTable {
         return ret;
     }
 
-    private FunctionSymbol _globalToString() {
+    private FunctionSymbol global_ToString() {
         FunctionSymbol ret = new FunctionSymbol("toString");
         ret.location = new TokenLocation(0, 0);
         ret.returnType = stringType;

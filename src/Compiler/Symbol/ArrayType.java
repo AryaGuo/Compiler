@@ -1,5 +1,7 @@
 package Compiler.Symbol;
 
+import Compiler.Config;
+
 public class ArrayType implements Type {
     public Type baseType;
 
@@ -21,5 +23,10 @@ public class ArrayType implements Type {
     @Override
     public String toString() {
         return this.baseType.toString() + "[]";
+    }
+
+    @Override
+    public int getBytes() {
+        return Config.REGISTER_WIDTH;
     }
 }

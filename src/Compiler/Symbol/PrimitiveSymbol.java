@@ -1,5 +1,8 @@
 package Compiler.Symbol;
 
+import Compiler.Config;
+
+
 public class PrimitiveSymbol extends Symbol implements Type {
 
     public PrimitiveSymbol(String name) {
@@ -18,5 +21,10 @@ public class PrimitiveSymbol extends Symbol implements Type {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public int getBytes() {
+        return Config.REGISTER_WIDTH;
     }
 }

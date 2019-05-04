@@ -122,7 +122,7 @@ functionCall
 creator
     :   baseType ('[' expression ']')+ ('[' empty ']')+ ('[' expression ']')+   # creatorError
     |   baseType ('[' expression ']')+ ('[' empty ']')*                         # creatorArray
-    |   baseType ('('')')?                                                # creatorNonArray
+    |   baseType ('('')')?                                                      # creatorNonArray
     ;
 
 empty

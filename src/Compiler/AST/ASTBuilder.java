@@ -107,12 +107,6 @@ public class ASTBuilder extends MxBaseVisitor {
                 errorRecorder.addRecord(new TokenLocation(x), "constructor cannot be redeclared");
             }
         }
-        if (classDeclaration.constructor == null) {
-            FunctionDeclaration functionDeclaration = new FunctionDeclaration();
-            functionDeclaration.name = classDeclaration.name;
-            functionDeclaration.returnType = new PrimitiveTypeNode("void");
-            classDeclaration.constructor = functionDeclaration;
-        }
         return classDeclaration;
     }
 

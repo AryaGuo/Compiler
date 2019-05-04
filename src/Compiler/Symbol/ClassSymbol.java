@@ -1,8 +1,10 @@
 package Compiler.Symbol;
 
+import Compiler.Config;
+
 public class ClassSymbol extends Symbol implements Type {
 
-    SymbolTable symbolTable;
+    public SymbolTable symbolTable;
 
     public ClassSymbol(String name) {
         this.name = name;
@@ -21,6 +23,11 @@ public class ClassSymbol extends Symbol implements Type {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public int getBytes() {
+        return Config.REGISTER_WIDTH * symbolTable.variableTable.size();
     }
 
 }

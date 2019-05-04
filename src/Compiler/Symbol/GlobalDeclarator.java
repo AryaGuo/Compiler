@@ -57,6 +57,7 @@ public class GlobalDeclarator implements ASTVisitor {
         variableSymbol.location = variableDeclaration.location;
         variableSymbol.isGlobal = (currentScope instanceof GlobalSymbolTable);
         variableSymbol.type = resolveType(variableDeclaration.type);
+        variableSymbol.isClassField = (currentClass != null);
         if (defineVariable(variableSymbol)) {
             variableDeclaration.variableSymbol = variableSymbol;
         }
@@ -137,7 +138,9 @@ public class GlobalDeclarator implements ASTVisitor {
         currentClass = node.classSymbol;
         node.variableList.forEach(this::visit);
         node.functionList.forEach(this::visit);
-        visit(node.constructor);
+        if (node.constructor != null) {
+            visit(node.constructor);
+        }
         currentClass = null;
         exitScope();
     }
@@ -150,6 +153,7 @@ public class GlobalDeclarator implements ASTVisitor {
     @Override
     public void visit(VariableDeclaration node) {
         defineVariable(node);
+
     }
 
     @Override

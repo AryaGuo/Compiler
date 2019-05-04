@@ -30,7 +30,7 @@ public class MxParser extends Parser {
 		THIS=46, NEW=47, ELSE=48, IDENTIFIER=49, INTEGER_LITERAL=50, STRING_LITERAL=51, 
 		LINECOMMENT=52, BLOCKCOMMENT=53, WHITESPACE=54;
 	public static final int
-		RULE_program = 0, RULE_declaration = 1, RULE_variableDeclaration = 2,
+            RULE_program = 0, RULE_declaration = 1, RULE_variableDeclaration = 2,
             RULE_variableDeclarators = 3, RULE_variableDeclarator = 4, RULE_functionDeclaration = 5,
             RULE_classDeclaration = 6, RULE_parameterList = 7, RULE_type = 8, RULE_baseType = 9,
             RULE_arrayType = 10, RULE_returnType = 11, RULE_constructorDeclaration = 12,
@@ -2193,7 +2193,7 @@ public class MxParser extends Parser {
 
     public static class CreatorErrorContext extends CreatorContext {
         public BaseTypeContext baseType() {
-            return getRuleContext(BaseTypeContext.class,0);
+            return getRuleContext(BaseTypeContext.class, 0);
         }
 
         public List<ExpressionContext> expression() {
@@ -2201,7 +2201,7 @@ public class MxParser extends Parser {
         }
 
         public ExpressionContext expression(int i) {
-            return getRuleContext(ExpressionContext.class,i);
+            return getRuleContext(ExpressionContext.class, i);
         }
 
         public List<EmptyContext> empty() {
@@ -2209,7 +2209,7 @@ public class MxParser extends Parser {
         }
 
         public EmptyContext empty(int i) {
-            return getRuleContext(EmptyContext.class,i);
+            return getRuleContext(EmptyContext.class, i);
         }
 
         public CreatorErrorContext(CreatorContext ctx) {

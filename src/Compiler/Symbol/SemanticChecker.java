@@ -167,7 +167,9 @@ public class SemanticChecker implements ASTVisitor {
         enterScope(node.classSymbol.symbolTable);
 //        System.out.println("class " + node.classSymbol.name);
         node.functionList.forEach(this::visit);
-        visit(node.constructor);
+        if (node.constructor != null) {
+            visit(node.constructor);
+        }
         exitScope();
     }
 
@@ -453,6 +455,9 @@ public class SemanticChecker implements ASTVisitor {
             return;
         }
         node.type = node.symbol.type;
+        if (node.symbol.isGlobal) {
+            currentFunction.usedGlobals.add(node.symbol);
+        }
     }
 
     @Override

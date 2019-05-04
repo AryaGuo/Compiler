@@ -28,11 +28,12 @@ public class LiteralExpression extends Expression {
             case STRING_LITERAL:
                 this.typeName = "string";
                 this.value = getString(token.getText());
+                this.value = this.value.substring(1, this.value.length() - 1);
         }
         this.location = new TokenLocation(token);
     }
 
-    String getString(String s) {
+    private String getString(String s) {
         int n = s.length();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < n; ++i) {
