@@ -11,11 +11,11 @@ import java.util.HashMap;
 import static java.lang.System.exit;
 
 public class IRPrinter implements IRVisitor {
-    StringBuilder stringBuilder;
-    HashMap<BasicBlock, String> bbNames;
-    HashMap<VirtualRegister, String> varNames;
-    HashMap<StackSlot, String> ssNames;
-    HashMap<StaticData, String> sdNames;
+    private StringBuilder stringBuilder;
+    private HashMap<BasicBlock, String> bbNames;
+    private HashMap<VirtualRegister, String> varNames;
+    private HashMap<StackSlot, String> ssNames;
+    private HashMap<StaticData, String> sdNames;
 
     private BasicBlock nextBasicBlock = null;
 
@@ -56,10 +56,6 @@ public class IRPrinter implements IRVisitor {
         ps.println(toString());
     }
 
-    private void appendln(String s) {
-        stringBuilder.append(s + "\n");
-    }
-
     private void append(String s) {
         stringBuilder.append(s);
     }
@@ -70,7 +66,7 @@ public class IRPrinter implements IRVisitor {
         return bbNames.get(bb);
     }
 
-    private String getVirtualRegsiterName(VirtualRegister virtualRegister) {
+    private String getVirtualRegisterName(VirtualRegister virtualRegister) {
         if (!varNames.containsKey(virtualRegister))
             varNames.put(virtualRegister, "v" + varCount++ + (showId ? "(" + virtualRegister.id + ")" : ""));
         return varNames.get(virtualRegister);
@@ -191,7 +187,7 @@ public class IRPrinter implements IRVisitor {
             visit(operand.allocatedPhysicalRegister);
             varNames.put(operand, operand.allocatedPhysicalRegister.name);
         } else
-            append(getVirtualRegsiterName(operand));
+            append(getVirtualRegisterName(operand));
     }
 
     @Override
@@ -214,7 +210,7 @@ public class IRPrinter implements IRVisitor {
                 append(" + ");
             operand.index.accept(this);
             if (operand.scale != 1)
-                append(" * " + String.valueOf(operand.scale));
+                append(" * " + operand.scale);
             occur = true;
         }
         if (operand.displacement != null) {
@@ -259,7 +255,7 @@ public class IRPrinter implements IRVisitor {
 
     @Override
     public void visit(BinaryInst inst) {
-        String op = null;
+        String op = inst.op.toString();
         if ((inst.op == BinaryInst.Op.ADD || inst.op == BinaryInst.Op.SUB) && inst.src instanceof Immediate && ((Immediate) inst.src).value == 0)
             return;
         if (inst.op == BinaryInst.Op.MUL) {
@@ -273,29 +269,6 @@ public class IRPrinter implements IRVisitor {
             inst.src.accept(this);
             append("\n");
             return;
-        }
-        switch (inst.op) {
-            case OR:
-                op = "or";
-                break;
-            case ADD:
-                op = "add";
-                break;
-            case AND:
-                op = "and";
-                break;
-            case SAL:
-                op = "sal";
-                break;
-            case SAR:
-                op = "sar";
-                break;
-            case SUB:
-                op = "sub";
-                break;
-            case XOR:
-                op = "xor";
-                break;
         }
         if (inst.op == BinaryInst.Op.SAL || inst.op == BinaryInst.Op.SAR) {
             append("\t" + op + " ");
@@ -312,21 +285,7 @@ public class IRPrinter implements IRVisitor {
 
     @Override
     public void visit(UnaryInst inst) {
-        String op = null;
-        switch (inst.op) {
-            case DEC:
-                op = "dec";
-                break;
-            case INC:
-                op = "inc";
-                break;
-            case NEG:
-                op = "neg";
-                break;
-            case NOT:
-                op = "not";
-                break;
-        }
+        String op = inst.op.toString();
         append("\t" + op + " ");
         inst.dest.accept(this);
         append("\n");
@@ -346,7 +305,7 @@ public class IRPrinter implements IRVisitor {
     @Override
     public void visit(Push inst) {
         append("\tpush ");
-        inst.dest.accept(this);
+        inst.src.accept(this);
         append("\n");
     }
 
@@ -359,27 +318,7 @@ public class IRPrinter implements IRVisitor {
 
     @Override
     public void visit(CJump inst) {
-        String op = null;
-        switch (inst.op) {
-            case E:
-                op = "je";
-                break;
-            case G:
-                op = "jg";
-                break;
-            case L:
-                op = "jl";
-                break;
-            case GE:
-                op = "jge";
-                break;
-            case LE:
-                op = "jle";
-                break;
-            case NE:
-                op = "jne";
-                break;
-        }
+        String op = "j" + inst.op.toString();
         if (showNasm) {
             append("\tcmp ");
             inst.src1.accept(this);
@@ -417,8 +356,7 @@ public class IRPrinter implements IRVisitor {
 
     @Override
     public void visit(Return inst) {
-        append("\tret ");
-        append("\n");
+        append("\tret \n");
     }
 
     @Override

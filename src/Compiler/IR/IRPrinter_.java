@@ -195,7 +195,7 @@ public class IRPrinter_ implements IRVisitor {
     @Override
     public void visit(Push inst) {
         appendNewLine("Push ");
-        inst.dest.accept(this);
+        inst.src.accept(this);
 
     }
 

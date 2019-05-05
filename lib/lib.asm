@@ -34,7 +34,7 @@ extern puts
 extern __printf_chk
 
 
-SECTION .text   6
+SECTION .text
 
 __hasValue:
         mov     rax, rdi
@@ -889,7 +889,7 @@ __buffer.3442:
         resb    1048576
 
 
-SECTION .text.startup 6
+SECTION .text.startup
 
 main:
         xor     eax, eax
