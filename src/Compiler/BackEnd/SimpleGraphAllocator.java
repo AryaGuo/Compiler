@@ -23,7 +23,6 @@ public class SimpleGraphAllocator {
     private Graph graph;
     private Graph oldGraph;
 
-
     private Set<VirtualRegister> simplifyList;
     private Set<VirtualRegister> spillList;
     private Set<VirtualRegister> realSpill;

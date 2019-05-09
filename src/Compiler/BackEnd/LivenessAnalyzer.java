@@ -3,6 +3,7 @@ package Compiler.BackEnd;
 import Compiler.IR.BasicBlock;
 import Compiler.IR.Function;
 import Compiler.IR.Instruction.IRInstruction;
+import Compiler.IR.Instruction.Move;
 import Compiler.IR.Operand.Register;
 import Compiler.IR.Operand.VirtualRegister;
 
@@ -83,8 +84,13 @@ public class LivenessAnalyzer {
         for (BasicBlock basicBlock : function.basicBlockList) {
             Set<VirtualRegister> liveNow = new HashSet<>(basicBlock.liveOut);
             for (IRInstruction irInstruction = basicBlock.tail; irInstruction != null; irInstruction = irInstruction.pre) {
+                boolean flag = irInstruction instanceof Move && ((Move) irInstruction).src instanceof Register
+                        && ((Move) irInstruction).dest instanceof Register;
                 for (VirtualRegister vr1 : liveNow) {
                     for (Register vr2 : irInstruction.defRegs()) {
+                        if (flag && vr1 == ((Move) irInstruction).src) {
+                            continue;
+                        }
                         graph.addEdge(vr1, (VirtualRegister) vr2);
                     }
                 }

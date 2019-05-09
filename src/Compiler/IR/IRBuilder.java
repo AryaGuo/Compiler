@@ -516,7 +516,6 @@ public class IRBuilder implements ASTVisitor {
         }
     }
 
-
     @Override
     public void visit(Identifier node) {
         Operand operand;
