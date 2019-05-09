@@ -17,7 +17,10 @@ public class LivenessAnalyzer {
         }
 
         public Graph(Graph graph) {
-            neighbors = new HashMap<>(graph.neighbors);
+            neighbors = new HashMap<>();
+            for (VirtualRegister vr : graph.neighbors.keySet()) {
+                neighbors.put(vr, new HashSet<>(graph.neighbors.get(vr)));
+            }
         }
 
         public void addNode(VirtualRegister virtualRegister) {

@@ -505,7 +505,7 @@ public class IRBuilder implements ASTVisitor {
         }
         curBB.append(new Call(curBB, vrax, functionMap.get(node.functionSymbol.name), args));
 
-        if (node.functionSymbol.returnType != null) {
+        if (!isVoid(node.functionSymbol.returnType)) {
             VirtualRegister ret = new VirtualRegister("");
             curBB.append(new Move(curBB, ret, vrax));
             if (trueList.containsKey(node)) {

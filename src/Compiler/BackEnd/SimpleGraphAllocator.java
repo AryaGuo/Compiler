@@ -33,8 +33,13 @@ public class SimpleGraphAllocator {
     public SimpleGraphAllocator(IRProgram irProgram) {
         this.irProgram = irProgram;
         this.generalRegs.add(rbx);
-        // this.generalRegs.add(r10);
-        // this.generalRegs.add(r11);
+        this.generalRegs.add(rcx);
+        this.generalRegs.add(rsi);
+        this.generalRegs.add(rdi);
+        this.generalRegs.add(r8);
+        this.generalRegs.add(r9);
+        this.generalRegs.add(r10);
+        this.generalRegs.add(r11);
         this.generalRegs.add(r12);
         this.generalRegs.add(r13);
         this.generalRegs.add(r14);
@@ -152,12 +157,12 @@ public class SimpleGraphAllocator {
                     realSpill.add(vr);
                 } else {
                     PhysicalRegister pr = null;
-//                    for (PhysicalRegister reg : callerSave) {
-//                        if (available.contains(reg)) {
-//                            pr = reg;
-//                            break;
-//                        }
-//                    }
+                    for (PhysicalRegister reg : callerSave) {
+                        if (available.contains(reg)) {
+                            pr = reg;
+                            break;
+                        }
+                    }
                     if (pr == null) {
                         pr = available.iterator().next();
                     }
@@ -185,16 +190,20 @@ public class SimpleGraphAllocator {
     }
 
     private void simplify() {
-        VirtualRegister vr = simplifyList.iterator().next();
-        Set<VirtualRegister> nbs = graph.neighbors.get(vr);
-        stack.addFirst(vr);
-        graph.remove(vr);
-        simplifyList.remove(vr);
-        for (VirtualRegister nb : nbs) {
-            if (spillList.contains(nb) && graph.degree(nb) < K) {
-                spillList.remove(nb);
-                simplifyList.add(nb);
+        List<VirtualRegister> origin = new LinkedList<>(simplifyList);
+        List<VirtualRegister> added = new LinkedList<>();
+        for (VirtualRegister vr : simplifyList) {
+            Set<VirtualRegister> nbs = graph.neighbors.get(vr);
+            stack.addFirst(vr);
+            graph.remove(vr);
+            for (VirtualRegister nb : nbs) {
+                if (spillList.contains(nb) && graph.degree(nb) < K) {
+                    spillList.remove(nb);
+                    added.add(nb);
+                }
             }
         }
+        simplifyList.removeAll(origin);
+        simplifyList.addAll(added);
     }
 }
