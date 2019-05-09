@@ -42,11 +42,11 @@ public class NaiveAllocator {
         for (Function function : irProgram.functionList) {
             for (BasicBlock basicBlock : function.basicBlockList) {
                 for (IRInstruction inst = basicBlock.head; inst != null; inst = inst.nxt) {
-                    List<Register> usedRegs = inst.usedRegs();
-                    List<Register> storeRegs = inst.storeRegs();
+                    List<Register> useRegs = inst.useRegs();
+                    List<Register> defRegs = inst.defRegs();
                     List<Register> allRegs = new LinkedList<>();
-                    allRegs.addAll(usedRegs);
-                    allRegs.addAll(storeRegs);
+                    allRegs.addAll(useRegs);
+                    allRegs.addAll(defRegs);
                     Map<Register, Register> renameMap = new HashMap<>();
 
                     for (Register register : allRegs) {
@@ -106,14 +106,14 @@ public class NaiveAllocator {
 
                     inst.renameRegs(renameMap);
 
-                    for (Register register : usedRegs) {
+                    for (Register register : useRegs) {
                         VirtualRegister vr = (VirtualRegister) register;
                         if (vr.allocatedPhysicalRegister == null) {
                             inst.prepend(new Move(inst.bb, renameMap.get(vr), vr.spillPlace));
                         }
                     }
 
-                    for (Register register : storeRegs) {
+                    for (Register register : defRegs) {
                         VirtualRegister vr = (VirtualRegister) register;
                         if (vr.allocatedPhysicalRegister == null) {
                             inst.append(new Move(inst.bb, vr.spillPlace, renameMap.get(vr)));

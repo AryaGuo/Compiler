@@ -19,7 +19,7 @@ public class Move extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Memory) {
             regs.addAll(((Memory) dest).usedRegs());
@@ -33,7 +33,7 @@ public class Move extends IRInstruction {
     }
 
     @Override
-    public List<Register> storeRegs() {
+    public List<Register> defRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Register) {
             regs.add((Register) dest);

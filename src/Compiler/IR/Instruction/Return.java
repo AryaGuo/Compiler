@@ -19,12 +19,12 @@ public class Return extends IRInstruction {
     }
 
     @Override
-    public List<Register> storeRegs() {
+    public List<Register> defRegs() {
         return new LinkedList<>();
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         return new LinkedList<>();
     }
 

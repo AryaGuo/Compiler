@@ -11,7 +11,8 @@ import Compiler.IR.Operand.StackSlot;
 
 import java.util.*;
 
-import static Compiler.IR.RegisterSet.*;
+import static Compiler.IR.RegisterSet.rbp;
+import static Compiler.IR.RegisterSet.rsp;
 
 public class StackFrameBuilder {
 
@@ -80,7 +81,7 @@ public class StackFrameBuilder {
         instruction.prepend(new BinaryInst(function.enterBB, BinaryInst.Op.SUB, rsp, new Immediate(frame.getFrameSize())));
 //        push callee-saved regs
         instruction = instruction.pre;  // after sub
-        List<Register> usedCalleeSaved = new LinkedList<>(calleeSave); //todo: function.usedCalleeSavedRegs();
+        List<Register> usedCalleeSaved = function.usedCalleeSavedRegs();
         for (Register register : usedCalleeSaved) {
             instruction.append(new Push(function.enterBB, register));
         }

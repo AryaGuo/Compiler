@@ -4,7 +4,6 @@ import Compiler.IR.Instruction.CJump;
 import Compiler.IR.Instruction.Call;
 import Compiler.IR.Instruction.IRInstruction;
 import Compiler.IR.Instruction.Jump;
-import Compiler.IR.Operand.PhysicalRegister;
 import Compiler.IR.Operand.Register;
 import Compiler.IR.Operand.VirtualRegister;
 import Compiler.Symbol.VariableSymbol;
@@ -33,6 +32,7 @@ public class Function {
     public List<VirtualRegister> parameterList;
 
     public LinkedList<BasicBlock> reversePostOrder;
+    public LinkedList<BasicBlock> reversePostOrderOnReverseCFG;
 
     public Set<VariableSymbol> usedGlobalVariables;
     public Set<VariableSymbol> recursiveUsedGlobalVariables;
@@ -48,6 +48,7 @@ public class Function {
         basicBlockList = new LinkedList<>();
         parameterList = new LinkedList<>();
         reversePostOrder = new LinkedList<>();
+        reversePostOrderOnReverseCFG = new LinkedList<>();
         usedGlobalVariables = new HashSet<>();
         recursiveUsedGlobalVariables = new HashSet<>();
         callee = new HashSet<>();
@@ -94,6 +95,10 @@ public class Function {
         visitedBasicBlocks.clear();
         reversePostOrder.clear();
         dfsReversePostOrder(enterBB);
+
+        visitedBasicBlocks.clear();
+        reversePostOrderOnReverseCFG.clear();
+        dfsReversePostOrderOnReversedCFG(leaveBB);
     }
 
     private void dfsRecursiveUsedGlobalVariables(Function node) {
@@ -112,21 +117,22 @@ public class Function {
         reversePostOrder.addFirst(node);
     }
 
+    private void dfsReversePostOrderOnReversedCFG(BasicBlock node) {
+        if (visitedBasicBlocks.contains(node)) return;
+        visitedBasicBlocks.add(node);
+        for (BasicBlock bb : node.frontiers)
+            dfsReversePostOrderOnReversedCFG(bb);
+        reversePostOrderOnReverseCFG.addFirst(node);
+    }
 
     public List<Register> usedCalleeSavedRegs() {
-        List<Register> regs = new LinkedList<>();
-        List<Register> ret = new LinkedList<>();
+        Set<Register> regs = new HashSet<>();
         for (BasicBlock basicBlock : this.basicBlockList)
             for (IRInstruction instruction = basicBlock.head; instruction != null; instruction = instruction.nxt) {
-                regs.addAll(instruction instanceof Call ? ((Call) instruction).callUsedRegs() : instruction.usedRegs());
-                regs.addAll(instruction instanceof Call ? ((Call) instruction).callStoreRegs() : instruction.storeRegs());
+                regs.addAll(instruction instanceof Call ? ((Call) instruction).callUseRegs() : instruction.useRegs());
+                regs.addAll(instruction instanceof Call ? ((Call) instruction).callDefRegs() : instruction.defRegs());
             }
-        for (Register register : regs) {
-            assert register instanceof PhysicalRegister;
-            if (calleeSave.contains(register) && !ret.contains(register)) {
-                ret.add(register);
-            }
-        }
-        return ret;
+        regs.retainAll(calleeSave);
+        return new LinkedList<>(regs);
     }
 }

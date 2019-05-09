@@ -1,9 +1,11 @@
 package Compiler.IR;
 
 import Compiler.IR.Instruction.IRInstruction;
+import Compiler.IR.Operand.VirtualRegister;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class BasicBlock {
     public String hint;
@@ -12,6 +14,10 @@ public class BasicBlock {
 
     public List<BasicBlock> frontiers;
     public List<BasicBlock> successors;
+
+    public Set<VirtualRegister> gen;
+    public Set<VirtualRegister> kill;
+    public Set<VirtualRegister> liveOut;
 
     private static int counter = 0;
     public int id;

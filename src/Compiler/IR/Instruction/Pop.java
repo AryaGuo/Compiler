@@ -20,19 +20,20 @@ public class Pop extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
-        if (dest instanceof Register) {
-            regs.add((Register) dest);
-        } else if (dest instanceof Memory) {
+        if (dest instanceof Memory) {
             regs.addAll(((Memory) dest).usedRegs());
         }
         return regs;
     }
 
     @Override
-    public List<Register> storeRegs() {
-        return new LinkedList<>();
+    public List<Register> defRegs() {
+        LinkedList<Register> regs = new LinkedList<>();
+        if (dest instanceof Register)
+            regs.add((Register) dest);
+        return regs;
     }
 
     @Override

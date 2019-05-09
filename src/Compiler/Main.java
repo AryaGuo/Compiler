@@ -5,6 +5,7 @@ import Compiler.AST.ASTPrinter;
 import Compiler.AST.ASTProgram;
 import Compiler.BackEnd.IRCorrector;
 import Compiler.BackEnd.NaiveAllocator;
+import Compiler.BackEnd.SimpleGraphAllocator;
 import Compiler.BackEnd.StackFrameBuilder;
 import Compiler.IR.IRBuilder;
 import Compiler.IR.IRPrinter;
@@ -102,19 +103,13 @@ public class Main {
             exit(0);
         }
 
-        if (Config.printIR) {
-            IRPrinter irPrinter = new IRPrinter();
-            irProgram.accept(irPrinter);
-//            System.out.println(irPrinter.toString());
-//            irPrinter.printTo(new FileOutputStream("IR.txt"));
-            irPrinter.printTo(System.err);
-        }
 
         IRCorrector irCorrector = new IRCorrector();
         irCorrector.visit(irProgram);
 
         if (Config.printIR) {
             IRPrinter irPrinter = new IRPrinter();
+            irPrinter.showBlockHint = true;
             irProgram.accept(irPrinter);
 //            irPrinter.printTo(new FileOutputStream("IR_corrected.txt"));
             irPrinter.printTo(System.err);
@@ -127,11 +122,11 @@ public class Main {
                 break;
             }
 
-//            case SimpleGraphAllocator: {
-//                SimpleGraphAllocator simpleGraphAllocator = new SimpleGraphAllocator(irProgram);
-//                simpleGraphAllocator.run();
-//                break;
-//            }
+            case SimpleGraphAllocator: {
+                SimpleGraphAllocator simpleGraphAllocator = new SimpleGraphAllocator(irProgram);
+                simpleGraphAllocator.run();
+                break;
+            }
         }
 
         if (Config.printIRAfterAllocator) {

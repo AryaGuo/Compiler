@@ -42,7 +42,7 @@ public class UnaryInst extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Register) {
             regs.add((Register) dest);
@@ -53,7 +53,7 @@ public class UnaryInst extends IRInstruction {
     }
 
     @Override
-    public List<Register> storeRegs() {
+    public List<Register> defRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Register) {
             regs.add((Register) dest);

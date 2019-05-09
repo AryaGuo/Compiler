@@ -72,7 +72,7 @@ public class CJump extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
         if (src1 instanceof Register) {
             regs.add((Register) src1);
@@ -88,7 +88,7 @@ public class CJump extends IRInstruction {
     }
 
     @Override
-    public List<Register> storeRegs() {
+    public List<Register> defRegs() {
         return new LinkedList<>();
     }
 

@@ -20,21 +20,21 @@ public class Push extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
-        if (src instanceof Register) {
-            regs.add((Register) src);
-        } else if (src instanceof Memory) {
+        if (src instanceof Memory) {
             regs.addAll(((Memory) src).usedRegs());
         }
         return regs;
     }
 
     @Override
-    public List<Register> storeRegs() {
-        return new LinkedList<>();
+    public List<Register> defRegs() {
+        LinkedList<Register> regs = new LinkedList<>();
+        if (src instanceof Register)
+            regs.add((Register) src);
+        return regs;
     }
-
     @Override
     public void renameRegs(Map<Register, Register> map) {
         if (src instanceof Register && map.containsKey(src)) {

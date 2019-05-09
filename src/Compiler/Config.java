@@ -16,7 +16,7 @@ public class Config {
     public static int inlineMaxDepth = 4;
     public static int inlineOperationsThreshold = 20;
 
-    public static Allocator allocator = Allocator.NaiveAllocator;
+    public static Allocator allocator = Allocator.SimpleGraphAllocator;
     public static boolean printAST = false;
     public static boolean printIR = false;
     public static boolean printIRAfterLocalValueNumberOptimization = false;

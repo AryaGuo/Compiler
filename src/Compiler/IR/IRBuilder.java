@@ -115,6 +115,7 @@ public class IRBuilder implements ASTVisitor {
         curFunction.enterBB = curBB;
         for (VariableDeclaration variableDeclaration : node.variableList) {
             if (variableDeclaration.init != null) {
+                curFunction.usedGlobalVariables.add(variableDeclaration.variableSymbol);
                 assign(variableDeclaration.variableSymbol.virtualRegister, variableDeclaration.init);
             }
         }
@@ -319,7 +320,8 @@ public class IRBuilder implements ASTVisitor {
     @Override
     public void visit(ExprStatement node) {
         if (isBoolean(node.expression.type)) {
-            createBBForBool(node.expression);
+            VirtualRegister vr = new VirtualRegister("");
+            boolAssign(vr, node.expression);
         } else {
             node.expression.accept(this);
         }
@@ -493,11 +495,13 @@ public class IRBuilder implements ASTVisitor {
         }
         for (Expression parameter : node.parameterList) {
             if (isBoolean(parameter.type)) {
-                createBBForBool(parameter);
+                VirtualRegister vr = new VirtualRegister("");
+                boolAssign(vr, parameter);
+                args.add(vr);
             } else {
                 parameter.accept(this);
+                args.add(exprToOperand.get(parameter));
             }
-            args.add(exprToOperand.get(parameter));
         }
         curBB.append(new Call(curBB, vrax, functionMap.get(node.functionSymbol.name), args));
 
@@ -557,18 +561,6 @@ public class IRBuilder implements ASTVisitor {
                 assert false;
         }
         exprToOperand.put(node, operand);
-    }
-
-    private void createBBForBool(Expression expr) {
-        BasicBlock trueBB = new BasicBlock("trueBB", curFunction);
-        BasicBlock falseBB = new BasicBlock("falseBB", curFunction);
-        BasicBlock afterBB = new BasicBlock("afterBB", curFunction);
-        trueList.put(expr, trueBB);
-        falseList.put(expr, falseBB);
-        expr.accept(this);
-        trueBB.append(new Jump(trueBB, afterBB));
-        falseBB.append(new Jump(falseBB, afterBB));
-        curBB = afterBB;
     }
 
     public boolean failed = false;

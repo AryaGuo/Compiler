@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static Compiler.IR.Instruction.BinaryInst.Op.*;
+import static Compiler.IR.RegisterSet.vrax;
+import static Compiler.IR.RegisterSet.vrdx;
+
 public class BinaryInst extends IRInstruction {
     public enum Op {
         ADD, SUB, MUL, DIV, MOD, SAL, SAR, AND, OR, XOR;
@@ -53,7 +57,7 @@ public class BinaryInst extends IRInstruction {
     }
 
     @Override
-    public List<Register> usedRegs() {
+    public List<Register> useRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Register) {
             regs.add((Register) dest);
@@ -65,14 +69,29 @@ public class BinaryInst extends IRInstruction {
         } else if (src instanceof Memory) {
             regs.addAll(((Memory) src).usedRegs());
         }
+        if (op == MUL) {
+            if (!regs.contains(vrax))
+                regs.add(vrax);
+        } else if (op == DIV || op == MOD) {
+            if (!regs.contains(vrax))
+                regs.add(vrax);
+            if (!regs.contains(vrdx))
+                regs.add(vrdx);
+        }
         return regs;
     }
 
     @Override
-    public List<Register> storeRegs() {
+    public List<Register> defRegs() {
         List<Register> regs = new LinkedList<>();
         if (dest instanceof Register) {
             regs.add((Register) dest);
+        }
+        if (op == MUL || op == DIV || op == MOD) {
+            if (!regs.contains(vrax))
+                regs.add(vrax);
+            if (!regs.contains(vrdx))
+                regs.add(vrdx);
         }
         return regs;
     }

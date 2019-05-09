@@ -59,9 +59,9 @@ public abstract class IRInstruction {
         }
     }
 
-    public abstract List<Register> usedRegs();
+    public abstract List<Register> useRegs();
 
-    public abstract List<Register> storeRegs();
+    public abstract List<Register> defRegs();
 
     public abstract void renameRegs(Map<Register, Register> map);
 
