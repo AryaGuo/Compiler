@@ -797,6 +797,10 @@ public class IRBuilder implements ASTVisitor {
         Operand operand;
         expression.accept(this);
         operand = exprToOperand.get(expression);
+        if (operand instanceof Immediate) {
+            Immediate tmp = doUnaryConstantArithmetic((Immediate) operand, op);
+            if (tmp != null) return tmp;
+        }
         switch (op) {
             case "+":
                 return operand;
@@ -820,6 +824,19 @@ public class IRBuilder implements ASTVisitor {
                 return old;
             default:
                 assert false;
+                return null;
+        }
+    }
+
+    private Immediate doUnaryConstantArithmetic(Immediate operand, String op) {
+        switch (op) {
+            case "+":
+                return new Immediate(operand.value);
+            case "-":
+                return new Immediate(-operand.value);
+            case "~":
+                return new Immediate(~operand.value);
+            default:
                 return null;
         }
     }
@@ -869,6 +886,10 @@ public class IRBuilder implements ASTVisitor {
         Operand orhs = exprToOperand.get(rhs);
         VirtualRegister ret = new VirtualRegister("");
 
+        if (olhs instanceof Immediate && orhs instanceof Immediate) {
+            return doBinaryConstantArithmetic((Immediate) olhs, (Immediate) orhs, op);
+        }
+
         if (special) {
             if (op.equals("*")) {
                 curBB.append(new Move(curBB, vrax, olhs));
@@ -895,6 +916,36 @@ public class IRBuilder implements ASTVisitor {
             }
         }
         return ret;
+    }
+
+    private Immediate doBinaryConstantArithmetic(Immediate lhs, Immediate rhs, String op) {
+        int lv = lhs.value;
+        int rv = rhs.value;
+        switch (op) {
+            case "*":
+                return new Immediate(lv * rv);
+            case "/":
+                return new Immediate(lv / rv);
+            case "%":
+                return new Immediate(lv % rv);
+            case "+":
+                return new Immediate(lv + rv);
+            case "-":
+                return new Immediate(lv - rv);
+            case "<<":
+                return new Immediate(lv << rv);
+            case ">>":
+                return new Immediate(lv >> rv);
+            case "&":
+                return new Immediate(lv & rv);
+            case "^":
+                return new Immediate(lv ^ rv);
+            case "|":
+                return new Immediate(lv | rv);
+            default:
+                assert false;
+                return null;
+        }
     }
 
     private void doRelationalBinary(Expression lhs, Expression rhs, String op, BasicBlock trueBB, BasicBlock falseBB) {

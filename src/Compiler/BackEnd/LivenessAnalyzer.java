@@ -23,10 +23,6 @@ public class LivenessAnalyzer {
             }
         }
 
-        public void addNode(VirtualRegister virtualRegister) {
-            neighbors.put(virtualRegister, new HashSet<>());
-        }
-
         public void addNodes(List<Register> list) {
             for (Register register : list) {
                 neighbors.put((VirtualRegister) register, new HashSet<>());
@@ -58,7 +54,7 @@ public class LivenessAnalyzer {
 
 
     public Graph getInterferenceGraph(Function function) {
-        for (BasicBlock basicBlock : function.reversePostOrderOnReverseCFG) {
+        for (BasicBlock basicBlock : function.basicBlockList) {
             init(basicBlock);
         }
         boolean flag = true;
