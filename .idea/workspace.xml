@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d18eebd6-c166-4e1e-922d-bb7fbb6047bf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.bash" beforeDir="false" afterPath="$PROJECT_DIR$/run.bash" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/BackEnd/NaiveAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/NaiveAllocator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/BackEnd/StackFrameBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/StackFrameBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/BasicBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/BasicBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/IRBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/IRBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/BinaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/BinaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/CJump.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/CJump.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Cdq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Cdq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/IRInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/IRInstruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Jump.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Jump.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Lea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Lea.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Leave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Leave.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Pop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Pop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Push.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Push.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/UnaryInst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/UnaryInst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +21,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="216">
-                  <caret line="95" column="56" lean-forward="true" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
+                <state relative-caret-position="501">
+                  <caret line="112" selection-start-line="112" selection-end-line="112" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -67,7 +43,7 @@
             <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/StackFrameBuilder.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="348">
-                  <caret line="83" selection-start-line="83" selection-end-line="83" />
+                  <caret line="84" selection-start-line="84" selection-end-line="84" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -83,7 +59,7 @@
             <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Function.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="1710">
-                  <caret line="128" column="26" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="26" />
+                  <caret line="127" column="26" selection-start-line="127" selection-start-column="26" selection-end-line="127" selection-end-column="26" />
                   <folding>
                     <element signature="e#1826#1827#0" expanded="true" />
                     <element signature="e#1861#1862#0" expanded="true" />
@@ -95,10 +71,15 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="37" column="32" lean-forward="true" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+                <state relative-caret-position="588">
+                  <caret line="154" selection-start-line="154" selection-end-line="159" selection-end-column="23" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="method#process#0;class#SimpleGraphAllocator#0" />
+                    <element signature="method#renameRegs#0;class#SimpleGraphAllocator#0" />
+                    <element signature="method#rewriteFunction#0;class#SimpleGraphAllocator#0" />
+                    <element signature="method#potentialSpill#0;class#SimpleGraphAllocator#0" />
+                    <element signature="method#simplify#0;class#SimpleGraphAllocator#0" />
                   </folding>
                 </state>
               </provider>
@@ -283,7 +264,7 @@
     <property name="$PROJECT_DIR$/src/Parser/Mx.g4::/output-dir" value="$PROJECT_DIR$/src" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557368076962" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557368497998" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT&#10;JAVA" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -371,7 +352,7 @@
       <workItem from="1556018038618" duration="15767000" />
       <workItem from="1556179515754" duration="64988000" />
       <workItem from="1556951930264" duration="44759000" />
-      <workItem from="1557362278451" duration="5241000" />
+      <workItem from="1557362278451" duration="5726000" />
     </task>
     <task id="LOCAL-00001" summary="semantic checker finished; to be tested">
       <created>1553339618331</created>
@@ -450,11 +431,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556970580274</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add graph coloring">
+      <created>1557368124999</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1557368124999</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="268327000" />
+    <option name="totallyTimeSpent" value="268812000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -480,7 +468,7 @@
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32970297" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32891566" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" sideWeight="0.49946752" visible="true" weight="0.34158415" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.49946752" weight="0.34158415" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.47920793" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -560,7 +548,8 @@
     <MESSAGE value="fix codegen.bash" />
     <MESSAGE value="rename string_concate&#10;well I mixed up rsp &amp; rbp" />
     <MESSAGE value="bugs fixed:&#10;    fix mul &amp; div&#10;    fix format of cjump(constant as src1)&#10;    add jumps between BBs" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugs fixed:&#10;    fix mul &amp; div&#10;    fix format of cjump(constant as src1)&#10;    add jumps between BBs" />
+    <MESSAGE value="add graph coloring" />
+    <option name="LAST_COMMIT_MESSAGE" value="add graph coloring" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -575,7 +564,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java</url>
-          <line>181</line>
+          <line>179</line>
           <properties />
           <option name="timeStamp" value="89" />
         </line-breakpoint>
@@ -1013,7 +1002,7 @@
     <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Function.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1710">
-          <caret line="128" column="26" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="26" />
+          <caret line="127" column="26" selection-start-line="127" selection-start-column="26" selection-end-line="127" selection-end-column="26" />
           <folding>
             <element signature="e#1826#1827#0" expanded="true" />
             <element signature="e#1861#1862#0" expanded="true" />
@@ -1024,17 +1013,7 @@
     <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/StackFrameBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="348">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="95" column="56" lean-forward="true" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
+          <caret line="84" selection-start-line="84" selection-end-line="84" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1043,8 +1022,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="37" column="32" lean-forward="true" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+        <state relative-caret-position="588">
+          <caret line="154" selection-start-line="154" selection-end-line="159" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#process#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#renameRegs#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#rewriteFunction#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#potentialSpill#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#simplify#0;class#SimpleGraphAllocator#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
