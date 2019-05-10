@@ -2,6 +2,7 @@ package Compiler.AST.Expression;
 
 import Compiler.AST.ASTVisitor;
 import Compiler.AST.TokenLocation;
+import Compiler.Symbol.Type;
 import org.antlr.v4.runtime.Token;
 
 import static Compiler.Parser.MxParser.*;
@@ -10,6 +11,10 @@ public class LiteralExpression extends Expression {
 
     public String value;
     public String typeName;
+
+    public LiteralExpression(Type type, boolean isLeft) {
+        super(type, isLeft);
+    }
 
     public LiteralExpression(Token token) {
         switch (token.getType()) {
@@ -66,5 +71,13 @@ public class LiteralExpression extends Expression {
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public Expression copy() {
+        LiteralExpression ret = new LiteralExpression(type, isLeft);
+        ret.value = value;
+        ret.typeName = typeName;
+        return ret;
     }
 }

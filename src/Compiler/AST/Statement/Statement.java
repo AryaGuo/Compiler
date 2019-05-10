@@ -8,4 +8,6 @@ public abstract class Statement extends ASTNode {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    public abstract Statement copy();
 }

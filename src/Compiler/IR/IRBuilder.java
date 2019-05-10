@@ -31,8 +31,14 @@ public class IRBuilder implements ASTVisitor {
     private ClassSymbol curClassSymbol;
     private VirtualRegister curThisPointer;
     private boolean isParameter;
+    private boolean isInlined;
 
     private Map<String, Function> functionMap;
+    private Map<String, FunctionDeclaration> functionDeclarationMap;
+    private Map<FunctionSymbol, Integer> operationsCountMap;
+    private LinkedList<Map<VariableSymbol, VirtualRegister>> inlineSymbolStack;
+    private LinkedList<BasicBlock> inlineAfterBBStack;
+
     private Map<Expression, BasicBlock> trueList;
     private Map<Expression, BasicBlock> falseList;
     /*
@@ -70,6 +76,10 @@ public class IRBuilder implements ASTVisitor {
         this.globalSymbolTable = globalSymbolTable;
         irProgram = new IRProgram();
         functionMap = new HashMap<>();
+        functionDeclarationMap = new HashMap<>();
+        operationsCountMap = new HashMap<>();
+        inlineSymbolStack = new LinkedList<>();
+        inlineAfterBBStack = new LinkedList<>();
         trueList = new HashMap<>();
         falseList = new HashMap<>();
         continueList = new Stack<>();
@@ -150,6 +160,7 @@ public class IRBuilder implements ASTVisitor {
         }
 
         for (FunctionDeclaration functionDeclaration : functionDeclarations) {
+            functionDeclarationMap.put(functionDeclaration.functionSymbol.name, functionDeclaration);
             functionMap.put(functionDeclaration.functionSymbol.name, new Function(functionDeclaration.functionSymbol.name,
                     functionDeclaration.returnType != null, Function.Type.UserDefined));
         }
@@ -259,12 +270,16 @@ public class IRBuilder implements ASTVisitor {
     @Override
     public void visit(VariableDeclaration node) {
         VirtualRegister vr = new VirtualRegister(node.name);
-        node.variableSymbol.virtualRegister = vr;
-        if (isParameter) {
-            if (curFunction.parameterList.size() >= 6) {
-                vr.spillPlace = new StackSlot(vr.hint);
+        if (isInlined) {
+            inlineSymbolStack.getLast().put(node.variableSymbol, vr);
+        } else {
+            node.variableSymbol.virtualRegister = vr;
+            if (isParameter) {
+                if (curFunction.parameterList.size() >= 6) {
+                    vr.spillPlace = new StackSlot(vr.hint);
+                }
+                curFunction.parameterList.add(vr);
             }
-            curFunction.parameterList.add(vr);
         }
         if (node.init != null) {
             assign(vr, node.init);
@@ -392,7 +407,11 @@ public class IRBuilder implements ASTVisitor {
         if (node.expression != null) {
             assign(vrax, node.expression);
         }
-        curBB.append(new Return(curBB));
+        if (isInlined) {
+            curBB.append(new Jump(curBB, inlineAfterBBStack.getLast()));
+        } else {
+            curBB.append(new Return(curBB));
+        }
     }
 
     @Override
@@ -503,8 +522,12 @@ public class IRBuilder implements ASTVisitor {
                 args.add(exprToOperand.get(parameter));
             }
         }
-        curBB.append(new Call(curBB, vrax, functionMap.get(node.functionSymbol.name), args));
-
+        String name = node.functionSymbol.name;
+        if (deserveInline(functionDeclarationMap.get(name), node.functionSymbol, functionMap.get(name))) {
+            doInline(functionDeclarationMap.get(name), args);
+        } else {
+            curBB.append(new Call(curBB, vrax, functionMap.get(name), args));
+        }
         if (!isVoid(node.functionSymbol.returnType)) {
             VirtualRegister ret = new VirtualRegister("");
             curBB.append(new Move(curBB, ret, vrax));
@@ -525,7 +548,11 @@ public class IRBuilder implements ASTVisitor {
             int offset = curClassSymbol.symbolTable.getOffset(node.name);
             operand = new Memory(curThisPointer, new Immediate(offset));
         } else {
-            operand = node.symbol.virtualRegister;
+            if (isInlined) {
+                operand = inlineSymbolStack.getLast().get(node.symbol);
+            } else {
+                operand = node.symbol.virtualRegister;
+            }
         }
         if (node.symbol.isGlobal) {
             curFunction.usedGlobalVariables.add(node.symbol);
@@ -592,7 +619,12 @@ public class IRBuilder implements ASTVisitor {
                     parameter.accept(this);
                     args.add(exprToOperand.get(parameter));
                 }
-                curBB.append(new Call(curBB, vrax, functionMap.get(node.functionCall.functionSymbol.name), args));
+                String name = node.functionCall.functionSymbol.name;
+                if (deserveInline(functionDeclarationMap.get(name), node.functionCall.functionSymbol, functionMap.get(name))) {
+                    doInline(functionDeclarationMap.get(name), args);
+                } else {
+                    curBB.append(new Call(curBB, vrax, functionMap.get(name), args));
+                }
                 if (node.functionCall.functionSymbol.returnType != null) {
                     VirtualRegister ret = new VirtualRegister("");
                     curBB.append(new Move(curBB, ret, vrax));
@@ -1002,5 +1034,121 @@ public class IRBuilder implements ASTVisitor {
         trueList.put(rhs, trueBB);
         falseList.put(rhs, falseBB);
         rhs.accept(this);
+    }
+
+    private boolean deserveInline(FunctionDeclaration fd, FunctionSymbol fs, Function function) {
+        if (!Config.useInlineOptimization) return false;
+        if (function.type != Function.Type.UserDefined || !fs.isGlobal || !fs.usedGlobals.isEmpty()) {
+            return false;
+        }
+        List<Statement> body = fd.body;
+        if (!operationsCountMap.containsKey(fs))
+            operationsCountMap.put(fs, countOperations(body));
+        if (operationsCountMap.get(fs) >= Config.inlineOperationsThreshold) return false;
+        if (inlineSymbolStack.size() >= Config.inlineMaxDepth)
+            return false;
+        return true;
+    }
+
+    private void doInline(FunctionDeclaration fd, LinkedList<Operand> args) {
+        List<VirtualRegister> vrList = new LinkedList<>();
+        inlineSymbolStack.addLast(new HashMap<>());
+
+        for (Operand operand : args) {
+            VirtualRegister vr = new VirtualRegister("");
+            curBB.append(new Move(curBB, vr, operand));
+            vrList.add(vr);
+        }
+        for (int i = 0; i < fd.parameterList.size(); ++i) {
+            inlineSymbolStack.getLast().put(fd.parameterList.get(i).variableSymbol, vrList.get(i));
+        }
+
+        BasicBlock inlineBodyBB = new BasicBlock("inlineBodyBB", curFunction);
+        BasicBlock inlineAfterBB = new BasicBlock("inlineAfterBB", curFunction);
+        inlineAfterBBStack.addLast(inlineAfterBB);
+        curBB.append(new Jump(curBB, inlineBodyBB));
+        curBB = inlineBodyBB;
+
+        boolean wasInlined = isInlined;
+        isInlined = true;
+        for (Statement statement : fd.body) {
+            statement.copy().accept(this);
+        }
+        if (!(curBB.tail instanceof Jump)) {
+            curBB.append(new Jump(curBB, inlineAfterBB));
+        }
+        curBB = inlineAfterBB;
+        isInlined = wasInlined;
+        inlineSymbolStack.removeLast();
+        inlineAfterBBStack.removeLast();
+    }
+
+    private Integer countOperations(List<Statement> statements) {
+        int cnt = 0;
+        for (Statement statement : statements) {
+            cnt += countOperations(statement);
+        }
+        return cnt;
+    }
+
+    private Integer countOperations(Statement statement) {
+        int cnt = 0;
+        if (statement == null || statement instanceof EmptyStatement) return 0;
+        if (statement instanceof BlockStatement) {
+            cnt += countOperations(((BlockStatement) statement).statementList);
+        } else if (statement instanceof ExprStatement) {
+            cnt += countExprOperations(((ExprStatement) statement).expression);
+        } else if (statement instanceof ForStatement) {
+            cnt += countExprOperations(((ForStatement) statement).condition);
+            cnt += countExprOperations(((ForStatement) statement).init);
+            cnt += countExprOperations(((ForStatement) statement).step);
+            cnt += countOperations(((ForStatement) statement).body);
+        } else if (statement instanceof IfStatement) {
+            cnt += countExprOperations(((IfStatement) statement).condition);
+            cnt += countOperations(((IfStatement) statement).falseStatement);
+            cnt += countOperations(((IfStatement) statement).trueStatement);
+        } else if (statement instanceof ReturnStatement) {
+            cnt += countExprOperations(((ReturnStatement) statement).expression);
+        } else if (statement instanceof VarDeclStatement) {
+            cnt += ((VarDeclStatement) statement).declaration.size();
+        } else if (statement instanceof WhileStatement) {
+            cnt += countExprOperations(((WhileStatement) statement).condition);
+            cnt += countOperations(((WhileStatement) statement).body);
+        } else {
+            cnt += 1;
+        }
+        return cnt;
+    }
+
+    private int countExprOperations(Expression expression) {
+        if (expression == null) return 0;
+        int cnt = 0;
+        if (expression instanceof ArrayExpression) {
+            cnt += countExprOperations(((ArrayExpression) expression).array);
+            cnt += countExprOperations(((ArrayExpression) expression).index);
+        } else if (expression instanceof AssignExpression) {
+            cnt += countExprOperations(((AssignExpression) expression).lhs);
+            cnt += countExprOperations(((AssignExpression) expression).rhs);
+        } else if (expression instanceof BinaryExpression) {
+            cnt += countExprOperations(((BinaryExpression) expression).lhs);
+            cnt += countExprOperations(((BinaryExpression) expression).rhs);
+        } else if (expression instanceof FuncCallExpression) {
+            for (Expression expr : ((FuncCallExpression) expression).parameterList) {
+                cnt += countExprOperations(expr);
+            }
+        } else if (expression instanceof MemberExpression) {
+            cnt += countExprOperations(((MemberExpression) expression).lhs);
+            cnt += countExprOperations(((MemberExpression) expression).functionCall);
+            cnt += countExprOperations(((MemberExpression) expression).identifier);
+        } else if (expression instanceof NewExpression) {
+            for (Expression expr : ((NewExpression) expression).dimExpr) {
+                cnt += countExprOperations(expr);
+            }
+        } else if (expression instanceof UnaryExpression) {
+            cnt += countExprOperations(((UnaryExpression) expression).expression);
+        } else {
+            cnt += 1;
+        }
+        return cnt;
     }
 }

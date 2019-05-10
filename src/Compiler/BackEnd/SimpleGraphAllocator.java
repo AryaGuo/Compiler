@@ -31,6 +31,7 @@ public class SimpleGraphAllocator {
 
     public SimpleGraphAllocator(IRProgram irProgram) {
         this.irProgram = irProgram;
+        this.generalRegs.add(rdx);
         this.generalRegs.add(rbx);
         this.generalRegs.add(rcx);
         this.generalRegs.add(rsi);

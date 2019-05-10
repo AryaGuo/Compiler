@@ -16,4 +16,15 @@ public class VariableDeclaration extends Declaration {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    public VariableDeclaration copy() {
+        VariableDeclaration ret = new VariableDeclaration();
+        ret.type = type;
+        ret.name = name;
+        if (init != null) {
+            ret.init = init.copy();
+        }
+        ret.variableSymbol = variableSymbol;
+        return ret;
+    }
 }

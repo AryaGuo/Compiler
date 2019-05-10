@@ -12,4 +12,12 @@ public class WhileStatement extends Statement {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public Statement copy() {
+        WhileStatement ret = new WhileStatement();
+        ret.condition = condition.copy();
+        ret.body = body.copy();
+        return ret;
+    }
 }

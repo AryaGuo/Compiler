@@ -11,4 +11,11 @@ public class ExprStatement extends Statement {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public Statement copy() {
+        ExprStatement ret = new ExprStatement();
+        ret.expression = expression.copy();
+        return ret;
+    }
 }

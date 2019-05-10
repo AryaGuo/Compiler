@@ -21,4 +21,14 @@ public class BlockStatement extends Statement {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public Statement copy() {
+        BlockStatement ret = new BlockStatement();
+        for (Statement statement : statementList) {
+            ret.statementList.add(statement.copy());
+        }
+        return ret;
+    }
+
 }

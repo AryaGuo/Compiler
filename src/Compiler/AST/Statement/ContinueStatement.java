@@ -8,4 +8,9 @@ public class ContinueStatement extends Statement {
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public Statement copy() {
+        return new ContinueStatement();
+    }
 }
