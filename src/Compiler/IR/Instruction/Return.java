@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static Compiler.IR.RegisterSet.vrax;
+
 public class Return extends IRInstruction {
     public Return(BasicBlock bb) {
         super(bb);
@@ -25,7 +27,10 @@ public class Return extends IRInstruction {
 
     @Override
     public List<Register> useRegs() {
-        return new LinkedList<>();
+        List<Register> regs = new LinkedList<>();
+        if (bb.function.hasReturnValue)
+            regs.add(vrax);
+        return regs;
     }
 
     @Override

@@ -11,6 +11,8 @@ import Compiler.IR.IRBuilder;
 import Compiler.IR.IRPrinter;
 import Compiler.IR.IRProgram;
 import Compiler.IR.RegisterSet;
+import Compiler.Optimization.DeadCodeElimination;
+import Compiler.Optimization.LVN;
 import Compiler.Parser.MxLexer;
 import Compiler.Parser.MxParser;
 import Compiler.Symbol.ClassScanner;
@@ -103,16 +105,48 @@ public class Main {
             exit(0);
         }
 
+        if (Config.printIR) {
+            IRPrinter irPrinter = new IRPrinter();
+            irPrinter.showBlockHint = true;
+            irProgram.accept(irPrinter);
+            irPrinter.printTo(new FileOutputStream("IR.txt"));
+//            irPrinter.printTo(System.err);
+        }
+
+        if (Config.useLocalValueNumbering) {
+            LVN lvn = new LVN(irProgram);
+            lvn.run();
+            if (Config.printIRAfterLocalValueNumbering) {
+                IRPrinter irPrinter = new IRPrinter();
+                irPrinter.showBlockHint = true;
+                irProgram.accept(irPrinter);
+                irPrinter.printTo(new FileOutputStream("IR_LVM.txt"));
+            }
+        }
+
+        if (Config.useDeadCodeElimination) {
+            DeadCodeElimination deadCodeElimination = new DeadCodeElimination(irProgram);
+            deadCodeElimination.run();
+            ;
+            if (Config.printIRAfterDeadCodeElimination) {
+                IRPrinter irPrinter = new IRPrinter();
+                irPrinter.showBlockHint = true;
+                irProgram.accept(irPrinter);
+                irPrinter.printTo(new FileOutputStream("IR_DCE.txt"));
+            }
+        }
+
 
         IRCorrector irCorrector = new IRCorrector();
         irCorrector.visit(irProgram);
+
 
         if (Config.printIR) {
             IRPrinter irPrinter = new IRPrinter();
             irPrinter.showBlockHint = true;
             irProgram.accept(irPrinter);
-//            irPrinter.printTo(new FileOutputStream("IR_corrected.txt"));
-            irPrinter.printTo(System.err);
+            irPrinter.printTo(new FileOutputStream("IR_corrected.txt"));
+//            irPrinter.printTo(System.err);
         }
 
         switch (Config.allocator) {

@@ -2,6 +2,7 @@ package Compiler.BackEnd;
 
 import Compiler.IR.BasicBlock;
 import Compiler.IR.Function;
+import Compiler.IR.Instruction.Call;
 import Compiler.IR.Instruction.IRInstruction;
 import Compiler.IR.Instruction.Move;
 import Compiler.IR.Operand.Register;
@@ -53,11 +54,14 @@ public class LivenessAnalyzer {
         }
     }
 
-
-    public Graph getInterferenceGraph(Function function) {
+    public void getLiveout(Function function, boolean flag) {
         for (BasicBlock basicBlock : function.basicBlockList) {
-            init(basicBlock);
+            init(basicBlock, flag);
         }
+        calLiveOut(function);
+    }
+
+    private void calLiveOut(Function function) {
         boolean flag = true;
         while (flag) {
             flag = false;
@@ -69,6 +73,13 @@ public class LivenessAnalyzer {
                 }
             }
         }
+    }
+
+    public Graph getInterferenceGraph(Function function) {
+        for (BasicBlock basicBlock : function.basicBlockList) {
+            init(basicBlock, false);
+        }
+        calLiveOut(function);
         Graph graph = new Graph();
         process(graph, function);
         return graph;
@@ -94,17 +105,17 @@ public class LivenessAnalyzer {
                         graph.addEdge(vr1, (VirtualRegister) vr2);
                     }
                 }
-                liveNow.removeAll(irInstruction.defRegs());
-                irInstruction.useRegs().forEach(register -> liveNow.add((VirtualRegister) register));
+                liveNow.removeAll(toVR(irInstruction.defRegs()));
+                liveNow.addAll(toVR(irInstruction.useRegs()));
             }
         }
     }
 
-    private void init(BasicBlock basicBlock) {
+    private void init(BasicBlock basicBlock, boolean flag) {
         Set<VirtualRegister> gen = new HashSet<>();
         Set<VirtualRegister> kill = new HashSet<>();
         for (IRInstruction irInstruction = basicBlock.head; irInstruction != null; irInstruction = irInstruction.nxt) {
-            List<Register> useRegs = irInstruction.useRegs();
+            List<Register> useRegs = (irInstruction instanceof Call && flag) ? ((Call) irInstruction).callArgs() : irInstruction.useRegs();
             List<Register> defRegs = irInstruction.defRegs();
             for (Register register : useRegs) {
                 assert register instanceof VirtualRegister;
@@ -131,5 +142,16 @@ public class LivenessAnalyzer {
             ret.addAll(liveIn);
         }
         return ret;
+    }
+
+
+    private List<VirtualRegister> toVR(List<Register> regs) {
+        List<VirtualRegister> list = new LinkedList<>();
+        for (Register reg : regs) {
+            if (reg instanceof VirtualRegister) {
+                list.add((VirtualRegister) reg);
+            }
+        }
+        return list;
     }
 }

@@ -15,7 +15,9 @@ public class ReturnStatement extends Statement {
     @Override
     public Statement copy() {
         ReturnStatement ret = new ReturnStatement();
-        ret.expression = expression.copy();
+        if (expression != null) {
+            ret.expression = expression.copy();
+        }
         return ret;
     }
 }

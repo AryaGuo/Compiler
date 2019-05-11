@@ -32,6 +32,18 @@ public class Call extends IRInstruction {
         bb.function.callee.add(function);
     }
 
+    public List<Register> callArgs() {
+        List<Register> regs = new LinkedList<>();
+        for (Operand operand : args) {
+            if (operand instanceof Memory) {
+                regs.addAll(((Memory) operand).usedRegs());
+            } else if (operand instanceof VirtualRegister) {
+                regs.add((Register) operand);
+            }
+        }
+        return regs;
+    }
+
     public List<Register> callUseRegs() {
         return new LinkedList<>(RegisterSet.args.subList(0, Integer.min(6, args.size())));
     }

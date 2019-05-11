@@ -25,8 +25,12 @@ public class MemberExpression extends Expression {
     public Expression copy() {
         MemberExpression ret = new MemberExpression(type, isLeft);
         ret.lhs = lhs.copy();
-        ret.identifier = (Identifier) identifier.copy();
-        ret.functionCall = (FuncCallExpression) functionCall.copy();
+        if (identifier != null) {
+            ret.identifier = (Identifier) identifier.copy();
+        }
+        if (functionCall != null) {
+            ret.functionCall = (FuncCallExpression) functionCall.copy();
+        }
         return ret;
     }
 }
