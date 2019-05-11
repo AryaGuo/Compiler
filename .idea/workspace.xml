@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d18eebd6-c166-4e1e-922d-bb7fbb6047bf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Compiler/Optimization/LVN.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/AdvancedGraphAllocator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/AST/Expression/MemberExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/AST/Expression/MemberExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/AST/Statement/ReturnStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/AST/Statement/ReturnStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Compiler/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,40 +19,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/program.asm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="909" column="18" selection-start-line="909" selection-start-column="18" selection-end-line="909" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Compiler/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="146" column="64" selection-start-line="146" selection-start-column="64" selection-end-line="146" selection-end-column="64" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="38" selection-start-line="38" selection-end-line="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="408">
+              <caret line="173" column="32" lean-forward="true" selection-start-line="173" selection-start-column="32" selection-end-line="173" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -67,26 +30,44 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Compiler/Config.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
+            <state relative-caret-position="225">
+              <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IR.txt">
+        <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+            <state relative-caret-position="581">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="55" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#renameRegs#0;class#SimpleGraphAllocator#0" />
+                <element signature="method#rewriteFunction#0;class#SimpleGraphAllocator#0" />
+                <element signature="method#potentialSpill#0;class#SimpleGraphAllocator#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IR_DCE.txt">
+        <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/AdvancedGraphAllocator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="297" column="14" lean-forward="true" selection-start-line="297" selection-start-column="14" selection-end-line="297" selection-end-column="14" />
+            <state relative-caret-position="90">
+              <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -183,17 +164,17 @@
         <option value="$PROJECT_DIR$/src/Compiler/AST/Statement/ReturnStatement.java" />
         <option value="$PROJECT_DIR$/src/Compiler/AST/Expression/MemberExpression.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Optimization/LVN.java" />
-        <option value="$PROJECT_DIR$/src/Compiler/BackEnd/AdvancedGraphAllocator.java" />
         <option value="$PROJECT_DIR$/src/Compiler/IR/Instruction/Call.java" />
         <option value="$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/Compiler/IR/Instruction/IRInstruction.java" />
-        <option value="$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" />
-        <option value="$PROJECT_DIR$/src/Compiler/Main.java" />
         <option value="$PROJECT_DIR$/IR_DCE.txt" />
         <option value="$PROJECT_DIR$/IR.txt" />
         <option value="$PROJECT_DIR$/program.asm" />
         <option value="$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java" />
+        <option value="$PROJECT_DIR$/src/Compiler/Main.java" />
+        <option value="$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java" />
+        <option value="$PROJECT_DIR$/src/Compiler/BackEnd/AdvancedGraphAllocator.java" />
         <option value="$PROJECT_DIR$/src/Compiler/Config.java" />
       </list>
     </option>
@@ -237,6 +218,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Compiler" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="reCompiler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reCompiler" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Compiler" type="462c0819:PsiDirectoryNode" />
+              <item name="BackEnd" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -255,7 +243,7 @@
     <property name="$PROJECT_DIR$/src/Parser/Mx.g4::/output-dir" value="$PROJECT_DIR$/src" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557538885475" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557545259718" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT&#10;JAVA" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -346,7 +334,7 @@
       <workItem from="1557362278451" duration="5726000" />
       <workItem from="1557368867111" duration="9907000" />
       <workItem from="1557394826882" duration="21817000" />
-      <workItem from="1557487488424" duration="10579000" />
+      <workItem from="1557487488424" duration="13254000" />
     </task>
     <task id="LOCAL-00001" summary="semantic checker finished; to be tested">
       <created>1553339618331</created>
@@ -467,11 +455,18 @@
       <option name="project" value="LOCAL" />
       <updated>1557477869787</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="add dead code elimination&#10;null pointer exception fixed">
+      <created>1557538954303</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1557538954303</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="311115000" />
+    <option name="totallyTimeSpent" value="313790000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -483,10 +478,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="726" y="0" width="714" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49120235" visible="true" weight="0.13733906" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49120235" weight="0.13733906" />
       <window_info id="Structure" order="1" sideWeight="0.50879765" side_tool="true" weight="0.099574015" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -593,7 +588,8 @@
     <MESSAGE value="calculate constant expression in IRBuilder" />
     <MESSAGE value="remove edges between Move" />
     <MESSAGE value="add function inline" />
-    <option name="LAST_COMMIT_MESSAGE" value="add function inline" />
+    <MESSAGE value="add dead code elimination&#10;null pointer exception fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="add dead code elimination&#10;null pointer exception fixed" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -649,28 +645,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Compiler/AST/Statement/BreakStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
-          <folding>
-            <element signature="e#256#257#0" expanded="true" />
-            <element signature="e#299#300#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/AST/Statement/ContinueStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding>
-            <element signature="e#259#260#0" expanded="true" />
-            <element signature="e#305#306#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/AST/Statement/EmptyStatement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -822,19 +796,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="157" column="24" lean-forward="true" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#renameRegs#0;class#SimpleGraphAllocator#0" />
-            <element signature="method#rewriteFunction#0;class#SimpleGraphAllocator#0" />
-            <element signature="method#potentialSpill#0;class#SimpleGraphAllocator#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/IRCorrector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="318">
@@ -972,16 +933,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="109" column="13" lean-forward="true" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Instruction/IRInstruction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
@@ -1000,13 +951,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1828">
           <caret line="235" selection-start-line="235" selection-end-line="235" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="146" column="64" selection-start-line="146" selection-start-column="64" selection-end-line="146" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -1031,23 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/program.asm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="909" column="18" selection-start-line="909" selection-start-column="18" selection-end-line="909" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Function.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1062,10 +989,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java">
+    <entry file="file://$PROJECT_DIR$/IR.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="60">
+          <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -1076,17 +1003,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IR.txt">
+    <entry file="file://$PROJECT_DIR$/program.asm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+        <state relative-caret-position="150">
+          <caret line="909" column="18" selection-start-line="909" selection-start-column="18" selection-end-line="909" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/IR/Instruction/Return.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/program.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="4" lean-forward="true" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/Optimization/DeadCodeElimination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="9" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="173" column="32" lean-forward="true" selection-start-line="173" selection-start-column="32" selection-end-line="173" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/SimpleGraphAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="55" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#renameRegs#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#rewriteFunction#0;class#SimpleGraphAllocator#0" />
+            <element signature="method#potentialSpill#0;class#SimpleGraphAllocator#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/LivenessAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler/BackEnd/AdvancedGraphAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Compiler/Config.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
+        <state relative-caret-position="225">
+          <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
         </state>
       </provider>
     </entry>
