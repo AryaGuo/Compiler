@@ -151,6 +151,7 @@ public class GlobalSymbolTable extends SymbolTable {
         ret.isGlobal = true;
         ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("str");
+        ret.withSideEffect = true;
         return ret;
     }
 
@@ -161,6 +162,7 @@ public class GlobalSymbolTable extends SymbolTable {
         ret.isGlobal = true;
         ret.parameterTypeList.add(stringType);
         ret.parameterNameList.add("str");
+        ret.withSideEffect = true;
         return ret;
     }
 
@@ -169,6 +171,7 @@ public class GlobalSymbolTable extends SymbolTable {
         ret.location = new TokenLocation(0, 0);
         ret.returnType = stringType;
         ret.isGlobal = true;
+        ret.withSideEffect = true;
         return ret;
     }
 
@@ -177,6 +180,7 @@ public class GlobalSymbolTable extends SymbolTable {
         ret.location = new TokenLocation(0, 0);
         ret.returnType = intType;
         ret.isGlobal = true;
+        ret.withSideEffect = true;
         return ret;
     }
 

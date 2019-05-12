@@ -181,6 +181,7 @@ public class SemanticChecker implements ASTVisitor {
         node.body.forEach(statement -> statement.accept(this));
         currentFunction = null;
         exitScope();
+        node.functionSymbol.finish();
     }
 
     @Override
@@ -444,6 +445,9 @@ public class SemanticChecker implements ASTVisitor {
                 }
             }
         }
+        if (currentFunction != null) {
+            currentFunction.callee.add(node.functionSymbol);
+        }
     }
 
     @Override
@@ -457,6 +461,7 @@ public class SemanticChecker implements ASTVisitor {
         node.type = node.symbol.type;
         if (node.symbol.isGlobal && currentFunction != null) {
             currentFunction.usedGlobals.add(node.symbol);
+            currentFunction.withSideEffect = true;
         }
     }
 

@@ -13,6 +13,7 @@ import Compiler.IR.IRProgram;
 import Compiler.IR.RegisterSet;
 import Compiler.Optimization.DeadCodeElimination;
 import Compiler.Optimization.LVN;
+import Compiler.Optimization.OutputIrrelevantEliminator;
 import Compiler.Parser.MxLexer;
 import Compiler.Parser.MxParser;
 import Compiler.Symbol.ClassScanner;
@@ -63,18 +64,18 @@ public class Main {
             errorRecorder.printTo(System.err);
             exit(1);
         }
-        ASTProgram program = astBuilder.getProgram();
+        ASTProgram astProgram = astBuilder.getProgram();
 
         if (Config.printAST) {
             ASTPrinter astPrinter = new ASTPrinter();
-            program.accept(astPrinter);
+            astProgram.accept(astPrinter);
             System.out.println(astPrinter.toString());
         }
 
 //       pass 1: scan classes
         GlobalSymbolTable globalSymbolTable = new GlobalSymbolTable();
         ClassScanner classScanner = new ClassScanner(errorRecorder, globalSymbolTable);
-        program.accept(classScanner);
+        astProgram.accept(classScanner);
         if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
@@ -82,7 +83,7 @@ public class Main {
 
 //       pass 2: global declaration
         GlobalDeclarator globalDeclarator = new GlobalDeclarator(errorRecorder, globalSymbolTable);
-        program.accept(globalDeclarator);
+        astProgram.accept(globalDeclarator);
         if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
@@ -90,16 +91,21 @@ public class Main {
 
 //       pass 3: semantic check
         SemanticChecker semanticChecker = new SemanticChecker(errorRecorder, globalSymbolTable);
-        program.accept(semanticChecker);
+        astProgram.accept(semanticChecker);
         if (errorRecorder.errorOccurred()) {
             errorRecorder.printTo(System.err);
             exit(1);
         }
 
+        if (Config.useOutputIrrelevantElimination) {
+            OutputIrrelevantEliminator outputIrrelevantEliminator = new OutputIrrelevantEliminator(astProgram);
+            outputIrrelevantEliminator.run();
+        }
+
 //        AST to IR
         RegisterSet.init();
         IRBuilder irBuilder = new IRBuilder(globalSymbolTable);
-        program.accept(irBuilder);
+        astProgram.accept(irBuilder);
         IRProgram irProgram = irBuilder.getIrProgram();
         if (irBuilder.failed) {
             exit(0);
