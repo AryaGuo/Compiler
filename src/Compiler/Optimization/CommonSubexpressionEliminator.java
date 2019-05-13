@@ -159,6 +159,7 @@ public class CommonSubexpressionEliminator implements ASTVisitor {
                             Identifier identifier = new Identifier();
                             identifier.symbol = vd.variableSymbol;
                             identifier.name = vd.name;
+                            identifier.type = vd.init.type;
                             hashCommonSubexpressionMap.put(hashcode, identifier);
                             addDependencySet(vd.init);
                             System.err.println("hash code " + hashcode);
