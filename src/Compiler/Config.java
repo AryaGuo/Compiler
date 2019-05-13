@@ -17,10 +17,10 @@ public class Config {
 
     public static Allocator allocator = Allocator.SimpleGraphAllocator;
     public static boolean printAST = false;
-    public static boolean printIR = false;
+    public static boolean printIR = true;
     public static boolean printIRAfterLocalValueNumbering = false;
     public static boolean printIRAfterDeadCodeElimination = false;
-    public static boolean printIRAfterAllocator = false;
+    public static boolean printIRAfterAllocator = true;
     public static boolean printIRWithFrame = false;
     public static boolean printToAsmFile = true;
 }

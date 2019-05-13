@@ -7,7 +7,7 @@ import Compiler.IR.IRProgram;
 import Compiler.IR.Instruction.IRInstruction;
 import Compiler.IR.Instruction.Move;
 import Compiler.IR.Operand.*;
-import javafx.util.Pair;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.*;
 
@@ -45,19 +45,19 @@ public class AdvancedGraphAllocator {
 
     public AdvancedGraphAllocator(IRProgram irProgram) {
         this.irProgram = irProgram;
-//        this.generalRegs.add(rdx);
+        this.generalRegs.add(rdx);
         this.generalRegs.add(rbx);
-//        this.generalRegs.add(rcx);
-//        this.generalRegs.add(rsi);
-//        this.generalRegs.add(rdi);
-//        this.generalRegs.add(r8);
-//        this.generalRegs.add(r9);
+        this.generalRegs.add(rcx);
+        this.generalRegs.add(rsi);
+        this.generalRegs.add(rdi);
+        this.generalRegs.add(r8);
+        this.generalRegs.add(r9);
         this.generalRegs.add(r10);
         this.generalRegs.add(r11);
-        this.generalRegs.add(r12);
-        this.generalRegs.add(r13);
-        this.generalRegs.add(r14);
-        this.generalRegs.add(r15);
+//        this.generalRegs.add(r12);
+//        this.generalRegs.add(r13);
+//        this.generalRegs.add(r14);
+//        this.generalRegs.add(r15);
         K = generalRegs.size();
         livenessAnalyzer = new LivenessAnalyzer();
     }
@@ -120,16 +120,21 @@ public class AdvancedGraphAllocator {
     }
 
     private void build() {
+        HashSet<Register> initial = new HashSet<>();
         for (BasicBlock basicBlock : curFunction.basicBlockList) {
             for (IRInstruction irInstruction = basicBlock.head; irInstruction != null; irInstruction = irInstruction.nxt) {
-                graph.addNodes(irInstruction.useRegs());
-                graph.addNodes(irInstruction.defRegs());
+//                graph.addNodes(irInstruction.useRegs());
+//                graph.addNodes(irInstruction.defRegs());
+                initial.addAll(irInstruction.useRegs());
+                initial.addAll(irInstruction.defRegs());
             }
         }
-        for (VirtualRegister vr : graph.neighbors.keySet()) {
-            moveList.put(vr, new LinkedList<>());
-            degree.put(vr, 0);
+        for (Register vr : initial) {
+            moveList.put((VirtualRegister) vr, new LinkedList<>());
+            degree.put((VirtualRegister) vr, 0);
         }
+        initial.removeAll(vallRegs);
+        graph.addNodes(new LinkedList<>(initial));
         for (BasicBlock basicBlock : curFunction.basicBlockList) {
             Set<VirtualRegister> liveNow = new HashSet<>(basicBlock.liveOut);
             for (IRInstruction irInstruction = basicBlock.tail; irInstruction != null; irInstruction = irInstruction.pre) {
@@ -146,7 +151,7 @@ public class AdvancedGraphAllocator {
                     }
                     worklistMoves.add((Move) irInstruction);
                 }
-                liveNow.addAll(defRegs);// TODO
+//                liveNow.addAll(defRegs);// TODO
                 for (VirtualRegister vr1 : liveNow) {
                     for (VirtualRegister vr2 : defRegs) {
                         addEdge(vr1, vr2);
@@ -208,10 +213,8 @@ public class AdvancedGraphAllocator {
     }
 
     private void assignColors() {
-        for (VirtualRegister vr : stack) {
-            if (vr.allocatedPhysicalRegister != null) {
-                colorMap.put(vr, vr.allocatedPhysicalRegister);
-            }
+        for (VirtualRegister vr : vallRegs) {
+            colorMap.put(vr, vr.allocatedPhysicalRegister);
         }
         for (VirtualRegister vr : stack) {
             if (vr.allocatedPhysicalRegister == null) {
