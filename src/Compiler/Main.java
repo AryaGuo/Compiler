@@ -8,6 +8,7 @@ import Compiler.IR.IRBuilder;
 import Compiler.IR.IRPrinter;
 import Compiler.IR.IRProgram;
 import Compiler.IR.RegisterSet;
+import Compiler.Optimization.CommonSubexpressionEliminator;
 import Compiler.Optimization.DeadCodeElimination;
 import Compiler.Optimization.LVN;
 import Compiler.Optimization.OutputIrrelevantEliminator;
@@ -97,6 +98,11 @@ public class Main {
         if (Config.useOutputIrrelevantElimination) {
             OutputIrrelevantEliminator outputIrrelevantEliminator = new OutputIrrelevantEliminator(astProgram);
             outputIrrelevantEliminator.run();
+        }
+
+        if (Config.useCommonSubexpressionElimination) {
+            CommonSubexpressionEliminator commonSubexpressionEliminator = new CommonSubexpressionEliminator(astProgram);
+            commonSubexpressionEliminator.run();
         }
 
 //        AST to IR

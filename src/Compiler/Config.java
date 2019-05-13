@@ -7,7 +7,7 @@ public class Config {
         NaiveAllocator, SimpleGraphAllocator, AdvancedGraphAllocator
     }
 
-    public static boolean useCommonAssignElimination = true;
+    public static boolean useCommonSubexpressionElimination = true;
     public static boolean useOutputIrrelevantElimination = true;
     public static boolean useLocalValueNumbering = false;
     public static boolean useDeadCodeElimination = true;
@@ -17,10 +17,10 @@ public class Config {
 
     public static Allocator allocator = Allocator.SimpleGraphAllocator;
     public static boolean printAST = false;
-    public static boolean printIR = true;
+    public static boolean printIR = false;
     public static boolean printIRAfterLocalValueNumbering = false;
     public static boolean printIRAfterDeadCodeElimination = false;
-    public static boolean printIRAfterAllocator = true;
+    public static boolean printIRAfterAllocator = false;
     public static boolean printIRWithFrame = false;
     public static boolean printToAsmFile = true;
 }

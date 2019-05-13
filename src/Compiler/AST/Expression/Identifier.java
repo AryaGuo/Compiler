@@ -11,6 +11,9 @@ public class Identifier extends Expression {
     public String name;
     public VariableSymbol symbol;
 
+    public Identifier() {
+    }
+
     public Identifier(Type type, boolean isLeft) {
         super(type, isLeft);
     }
