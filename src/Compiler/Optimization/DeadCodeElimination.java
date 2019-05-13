@@ -38,7 +38,7 @@ public class DeadCodeElimination {
     }
 
     private void process(Function function) {
-        livenessAnalyzer.getLiveout(function, true);
+        livenessAnalyzer.getLiveOut(function, true);
         for (BasicBlock basicBlock : function.basicBlockList) {
             Set<VirtualRegister> liveNow = new HashSet<>(basicBlock.liveOut);
             for (IRInstruction irInstruction = basicBlock.tail; irInstruction != null; irInstruction = irInstruction.pre) {

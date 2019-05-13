@@ -176,7 +176,7 @@ public class IRPrinter implements IRVisitor {
 
     @Override
     public void visit(BasicBlock basicBlock) {
-        append("\t" + getBasicBlockName(basicBlock) + (showBlockHint && !showNasm ? "(" + basicBlock.hint + ")" : "") + ":\n");
+        append("  " + getBasicBlockName(basicBlock) + (showBlockHint && !showNasm ? "(" + basicBlock.hint + ")" : "") + ":\n");
         for (IRInstruction inst = basicBlock.head; inst != null; inst = inst.nxt)
             inst.accept(this);
     }

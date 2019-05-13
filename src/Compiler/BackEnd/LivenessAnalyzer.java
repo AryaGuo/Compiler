@@ -54,7 +54,7 @@ public class LivenessAnalyzer {
         }
     }
 
-    public void getLiveout(Function function, boolean flag) {
+    public void getLiveOut(Function function, boolean flag) {
         for (BasicBlock basicBlock : function.basicBlockList) {
             init(basicBlock, flag);
         }

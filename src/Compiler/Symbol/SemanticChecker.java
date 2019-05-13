@@ -259,6 +259,9 @@ public class SemanticChecker implements ASTVisitor {
     public void visit(ForStatement node) {
         if (node.condition != null) {
             node.condition.accept(this);
+            if (node.condition.type == null) {
+                return;
+            }
             if (!node.condition.type.match(boolType)) {
                 errorRecorder.addRecord(node.location, "condition expression in a for-loop should be bool");
             }

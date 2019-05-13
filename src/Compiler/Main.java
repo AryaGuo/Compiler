@@ -3,10 +3,7 @@ package Compiler;
 import Compiler.AST.ASTBuilder;
 import Compiler.AST.ASTPrinter;
 import Compiler.AST.ASTProgram;
-import Compiler.BackEnd.IRCorrector;
-import Compiler.BackEnd.NaiveAllocator;
-import Compiler.BackEnd.SimpleGraphAllocator;
-import Compiler.BackEnd.StackFrameBuilder;
+import Compiler.BackEnd.*;
 import Compiler.IR.IRBuilder;
 import Compiler.IR.IRPrinter;
 import Compiler.IR.IRProgram;
@@ -156,17 +153,17 @@ public class Main {
         }
 
         switch (Config.allocator) {
-            case NaiveAllocator: {
+            case NaiveAllocator:
                 NaiveAllocator naiveAllocator = new NaiveAllocator(irProgram);
                 naiveAllocator.run();
                 break;
-            }
-
-            case SimpleGraphAllocator: {
+            case SimpleGraphAllocator:
                 SimpleGraphAllocator simpleGraphAllocator = new SimpleGraphAllocator(irProgram);
                 simpleGraphAllocator.run();
                 break;
-            }
+            case AdvancedGraphAllocator:
+                AdvancedGraphAllocator advancedGraphAllocator = new AdvancedGraphAllocator(irProgram);
+                advancedGraphAllocator.run();
         }
 
         if (Config.printIRAfterAllocator) {
